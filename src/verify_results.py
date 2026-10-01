@@ -15,7 +15,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "outputs/day2"
 EXPERIMENTS = ("modeling_cell_split", "feature_experiments", "ablation_loss",
-               "capacity_penalty", "curve_models", "protocol_validation", "batch3_test")
+               "capacity_penalty", "curve_models", "protocol_validation", "batch3_test",
+               "batch3_original_test")
 
 
 def require(condition, message):
@@ -49,7 +50,7 @@ def verify_experiment(name):
     metrics_path = folder / "evaluation_metrics.csv"
     if metrics_path.exists():
         saved = pd.read_csv(metrics_path)
-        if name == "batch3_test":
+        if name in ("batch3_test", "batch3_original_test"):
             saved = saved.loc[saved.evaluation.eq("Test (Batch 3)")]
         if "split" in saved:
             saved["evaluation"] = saved["split"].map(
@@ -60,6 +61,22 @@ def verify_experiment(name):
         for metric in ("n", "mape_pct", "mae", "rmse", "r2"):
             np.testing.assert_allclose(joined[metric + "_check"], joined[metric + "_saved"],
                                        rtol=1e-9, atol=1e-9)
+    if name == "batch3_original_test":
+        result = json.loads((folder / "results.json").read_text(encoding="utf-8"))
+        require(result["new_model_fits"] == 0 and result["new_predictions"] == 44,
+                "Original-model follow-up changed training")
+        for path, expected in result["plan"]["input_hashes"].items():
+            require(hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == expected,
+                    f"Original-model frozen input changed: {path}")
+        require(len(predictions) == 44 and predictions.batch.eq("Batch3").all(),
+                "Unexpected original-model test cells")
+        previous = pd.read_csv(BASE / "batch3_test/evaluation_predictions.csv")
+        require(set(previous.cell_id) == set(predictions.cell_id), "Batch3 test cells differ")
+        np.testing.assert_allclose(result["batch2_mape_pct"], 26.18567870657303, atol=1e-10)
+        require(result["model_sha256_after"] == result["plan"]["input_hashes"][
+                "outputs/day2/modeling_cell_split/selected_pipeline.joblib"],
+                "Original model changed during evaluation")
+        return len(predictions)
     if name == "batch3_test":
         result = json.loads((folder / "results.json").read_text(encoding="utf-8"))
         plan = result["plan"]
@@ -147,7 +164,7 @@ def main():
     total = 0
     for name in EXPERIMENTS:
         total += verify_experiment(name)
-        checks = "saved prediction metrics and frozen test inputs" if name == "batch3_test" else "saved prediction metrics and CV means"
+        checks = "saved prediction metrics and frozen test inputs" if name.startswith("batch3_") else "saved prediction metrics and CV means"
         print(f"PASS: {name} — {checks}")
     verify_protocol_split()
     verify_report_links()

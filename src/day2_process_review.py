@@ -62,6 +62,8 @@ def main():
     batch3_completed = (base / "batch3_test/results.json").is_file()
     if batch3_completed:
         source_paths += [base / "batch3_test/results.json", base / "batch3_test/evaluation_metrics.csv"]
+        if (base / "batch3_original_test/results.json").is_file():
+            source_paths += [base / "batch3_original_test/results.json", base / "batch3_original_test/evaluation_metrics.csv"]
     (out / "provenance.json").write_text(json.dumps(dict(
         purpose="Saved-results synthesis only", model_fit=False, evaluation_repeated=False,
         prior_model_selection_changed=False, batch3_evaluated=batch3_completed,
@@ -508,6 +510,10 @@ Batch3의 MAPE는 Batch2보다 낮지만 사이클 단위 MAE는 거의 비슷�
 이번 실행이 Batch3의 첫 모델 평가지만, Batch3는 이미 EDA에 사용했다. 완전히 보지 않은 데이터라고 주장하지 않고, 추가 점수로 모델을 재선정·튜닝하지 않았다. Batch3 전체 지정 성능표·품질 점검·비교 그래프는 [Batch3 추가 테스트 보고서](DAY2_BATCH3_TEST.md)에 있다.
 
 """
+        original_path = base / "batch3_original_test/results.json"
+        if original_path.is_file():
+            original = json.loads(original_path.read_text(encoding="utf-8"))
+            extra += f"기존 셀 분리 **28셀** 모델(Batch2 26.19%)도 이후 사용자의 요청으로 같은 Batch3 44셀에서 평가했다. MAPE는 **{original['batch3_metrics']['mape_pct']:.2f}%**로, 프로토콜 분리 29셀 분산 모델의 {baseline.mape_pct:.2f}%와 가까웠다. 이미 첫 Batch3 결과를 본 뒤의 추가 확인이며 재학습·튜닝·모델 재선정은 없었다. 학습 셀 구성이 다르므로 작은 차이를 분리 방식의 인과적 효과로 해석하지 않는다.\n\n"
         report = report.replace("## 9. 결론과 평가 한계", extra + "## 9. 결론과 평가 한계")
     (base / "DAY2_REPORT.md").write_text(report, encoding="utf-8")
 

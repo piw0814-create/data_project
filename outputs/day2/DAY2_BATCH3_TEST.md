@@ -68,3 +68,17 @@ Gap은 오차 증가가 양수가 되도록 계산하며 단위는 %p다. 9.1%�
 이번 실행은 Batch3의 **첫 모델 예측·점수 계산**이다. 다만 Batch3는 이미 DAY1 EDA와 특징 분포 확인에 사용했으므로 완전히 보지 않은 데이터라고 표현하지 않는다. Batch2의 반복 개발 이력도 유지한다. 사전에 고정한 두 모델의 추가 평가이며 Batch3 성능으로 최종 모델을 다시 선택하지 않는다.
 
 실행: `python -m src.day2_batch3`. 완료된 결과가 있으면 저장된 점수를 읽으며 재평가하지 않는다. [고정 계획](batch3_test/plan.json), [입력 점검표](batch3_test/input_audit.csv), [셀별 예측](batch3_test/evaluation_predictions.csv), [학습 범위 비교](batch3_test/range_diagnostics.csv)에 근거를 남겼다.
+
+## 6. 기존 26.19% 모델의 추가 확인
+
+첫 두 모델 평가 후 사용자의 요청으로, 기존 셀 분리 **28셀**로 학습해 Batch2 MAPE 26.19%를 기록한 저장 모델 `linear_F0`도 같은 Batch3 44셀에 적용했다. 모델·전처리를 그대로 사용했고 재학습하지 않았다. 이미 Batch3 결과를 본 뒤 추가한 비교이므로 최초 두 모델의 사전 고정 평가와 구분한다.
+
+| 저장 모델 | 학습 셀 수 | Batch2 MAPE (%) | Batch3 MAPE (%) | Batch3 MAE | Batch3 RMSE |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 기존 셀 분리 분산 모델 | 28 | 26.19 | 11.94 | 147.08 | 244.17 |
+| 프로토콜 분리 분산 모델 | 29 | 28.68 | 12.09 | 150.22 | 250.90 |
+| 프로토콜 CV 선택 ElasticNet | 29 | 37.14 | 15.10 | 194.63 | 296.24 |
+
+**기존 28셀 모델은 Batch3 MAPE 11.94%로, 29셀 분산 모델보다 약 0.15%p 낮았다.** 두 단일 분산 모델의 결과는 가깝다. 학습 셀 구성이 다르므로 이 작은 차이를 프로토콜 분리의 인과적 효과나 통계적으로 확정된 성능 차이로 해석하지 않는다. 관측상 단순 모델의 외부 성능이 더 좋았다는 기존 해석과 연결되지만, 이 추가 결과로 CV 선택 모델을 바꾸지는 않는다.
+
+[추가 평가 계획](batch3_original_test/plan.json) · [셀별 예측](batch3_original_test/evaluation_predictions.csv) · [평가표](batch3_original_test/evaluation_metrics.csv). 재확인은 `python -m src.day2_batch3_original`로 수행하며 완료된 점수를 재사용한다.

@@ -1,0 +1,50 @@
+{
+  "plan": {
+    "created_utc": "2026-10-01T23:06:54.076941+00:00",
+    "candidate": "linear_F0",
+    "fit_cells": 28,
+    "features": [
+      "log10_delta_Q_var"
+    ],
+    "input_hashes": {
+      "outputs/day2/modeling_cell_split/selected_pipeline.joblib": "b22313468a53156e8446f3466046495f43bd7a961cfd436ea841395294901b8b",
+      "outputs/day2/modeling_cell_split/model_spec.json": "728ca00198ed532acc5b505ff3542ce71abf7f9bb1567e4c87601ffa5f4f1f56",
+      "outputs/day2/modeling_cell_split/cell_features.csv": "4b9dfa1701f54f39b240332251c9a4636465b5b26911e23aadd28d5f0763b40b",
+      "outputs/day2/modeling_cell_split/split_manifest.csv": "05d28f7618bd1d258ac12bafac132f3bcb02bb1d438363d37e85f10a61cc56d7",
+      "outputs/day2/modeling_cell_split/final_evaluation.json": "1fc2e33757d98d50708c994a28ae1a64ad652b7a937f5532256f93a1655257c6",
+      "outputs/day2/batch3_test/input_audit.csv": "0714b9a614ea971a57a0d1b40b5a864458dd6401df6dda5b4a6c50a77151e291",
+      "outputs/day2/batch3_test/cell_features.csv": "fa0b14dd310a1122b9caed92a869cc4b58fc1c4c0c6d6ae7109cd7a6d579746c"
+    },
+    "reason": "User requested the historical 26.19% model after seeing the first Batch3 results",
+    "batch3_context": "Follow-up evaluation of an existing model; not a new untouched test",
+    "model_fit": false,
+    "tuning": false,
+    "selected_from_batch3": false,
+    "input_cutoff_cycle": 100,
+    "seed": 42,
+    "code_sha256": "336109cf3c995aa3c24715f1e5d1bb3a59b4c0209e140988348e4507ef095df2",
+    "python": "3.11.15",
+    "model_versions": {
+      "python": "3.11.15",
+      "numpy": "2.4.6",
+      "pandas": "3.0.6",
+      "scikit_learn": "1.9.1",
+      "matplotlib": "3.11.2",
+      "joblib": "1.6.0"
+    }
+  },
+  "completed_utc": "2026-10-01T23:06:54.095393+00:00",
+  "new_model_fits": 0,
+  "new_predictions": 44,
+  "batch3_metrics": {
+    "n": 44,
+    "mape_pct": 11.939105617509647,
+    "mae": 147.08318531998518,
+    "rmse": 244.17176273926341,
+    "r2": 0.38073528354651953,
+    "bias_cycles": -74.1241794433046,
+    "underprediction_n": 22
+  },
+  "batch2_mape_pct": 26.18567870657303,
+  "model_sha256_after": "b22313468a53156e8446f3466046495f43bd7a961cfd436ea841395294901b8b"
+}
