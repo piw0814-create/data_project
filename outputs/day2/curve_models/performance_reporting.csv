@@ -1,0 +1,7 @@
+구분,MAPE (%),비고
+Train (Batch 1 CV),9.123111743867124,5-fold mean; development28
+Valid (Batch 1 Hold-out),5.725190805662571,Same model; 8 cells
+Test (Batch 2),30.56498978850339,Exploratory follow-up; 39 cells
+Gap (Train-Valid),-3.397920938204553,"Valid - CV, percentage points"
+Gap (Valid-Test),24.83979898284082,"Batch2 - Valid, percentage points"
+Gap (Target-Test),21.464989788503388,"Batch2 - 9.1%, assignment reference"

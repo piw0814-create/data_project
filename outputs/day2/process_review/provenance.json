@@ -1,0 +1,23 @@
+{
+  "purpose": "Saved-results synthesis only",
+  "model_fit": false,
+  "evaluation_repeated": false,
+  "prior_model_selection_changed": false,
+  "batch3_evaluated": false,
+  "sources": {
+    "outputs/day2/feature_experiments/stage_comparison.csv": "b778f703fb4b49d5ce5c0d77183bf1709b2fdf7d376536d76d7fa7c7b2906807",
+    "outputs/day2/capacity_penalty/comparison.csv": "cea610f6b103fad4a0fcb9a0c97aeb0665dd0e70c4910d5c133135dda9e6d87e",
+    "outputs/day2/curve_models/comparison.csv": "9744c95bf66c5501bd31315ed706673fb452dbae1dd106d2bedc8be16e53a91c",
+    "outputs/day2/ablation_loss/results.json": "eb88b313955308c399511a99053e822c899c6877c1401e7e53fb8bd47455d2ec",
+    "outputs/day2/modeling_cell_split/evaluation_predictions.csv": "a1868fc2e03b649b74aa5541d353ac461a646afd18b8000182c2de5280bb93ff",
+    "outputs/day2/ablation_loss/performance_reporting.csv": "82127f6bcbae8c8303f29f53042564fa792f94f763cd4d91c13e1252f0b50e47",
+    "outputs/day2/modeling_cell_split/model_comparison.csv": "6b9a26a3a469d3a729e3f23745b249eed3933e93bdc50c325c6a5c268fc89851",
+    "outputs/day2/feature_experiments/cell_features.csv": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+    "outputs/day2/protocol_validation/results.json": "9165203be820b2bcd38357853c1cb787255df284cf12331f9a7a2372737f0eac",
+    "outputs/day2/protocol_validation/summary.csv": "ad1b3f72190ed50af6fd908318b4b20ca83efabb04d22c965129f867ba4393c1",
+    "outputs/day2/protocol_validation/stage_comparison.csv": "435f0cb7817a905149cc3b2ee58df398b77b09b33af7b6ad036c8ec4ad3d0aad",
+    "outputs/day2/protocol_validation/performance_reporting.csv": "c731aa52dd4971290578f27191cd8ad0c6a11cb05c6e15504a8465ca4056c363",
+    "outputs/day2/protocol_validation/split_manifest.csv": "9f5323760378e598f493889011053224047060675b13135c89f7e926cc38e894",
+    "outputs/day2/protocol_validation/evaluation_predictions.csv": "2978a7419029818c7f5dbec0ba5f9c2a4e98150fc57684b9122534fceb137053"
+  }
+}

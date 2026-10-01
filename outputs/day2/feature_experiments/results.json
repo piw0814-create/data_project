@@ -1,0 +1,255 @@
+{
+  "selected": "S3_ridge_1",
+  "spec": {
+    "stage": "S3",
+    "title": "+ 초기 용량 특징",
+    "target": "log10",
+    "features": [
+      "log10_delta_Q_var",
+      "delta_Q_min",
+      "qd_initial_median",
+      "qd_fraction_change",
+      "early_drop_per100"
+    ],
+    "name": "ridge_1",
+    "estimator": "Ridge",
+    "alpha": 1.0,
+    "l1_ratio": null
+  },
+  "cv_mape_pct": 7.697923629191938,
+  "scores": {
+    "Valid (Batch 1 Hold-out)": {
+      "n": 8,
+      "mape_pct": 3.421158164283537,
+      "mae": 28.60279997693084,
+      "rmse": 38.8994285446589,
+      "r2": 0.9364459410359182
+    },
+    "Test (Batch 2)": {
+      "n": 39,
+      "mape_pct": 38.1976338113057,
+      "mae": 202.79531974820637,
+      "rmse": 222.92055658371686,
+      "r2": -0.03296776565771142
+    }
+  },
+  "n_candidates": 71,
+  "seed": 42,
+  "evaluation_context": "Previously evaluated Batch2; user-authorized frozen-winner reevaluation, not a new untouched test",
+  "test_used_for_selection": false,
+  "holdout_used_for_selection": false,
+  "refit_including_holdout": false,
+  "batch3_evaluated": false,
+  "continuation_recovery": "Not possible with available files: 2017-06-30 continuation file absent",
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "h5py": "3.16.0",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0"
+  },
+  "feature_definitions": {
+    "qd_initial_median": "median QD cycles 10–20; at least 3 positive observations",
+    "qd_fraction_change": "(median QD cycles 90–100 − median QD cycles 10–20) / initial median",
+    "ir_fraction_change": "same window ratio for IR; nonpositive IR missing; at least 3 observations per window",
+    "tavg_change": "median Tavg cycles 90–100 − median Tavg cycles 10–20",
+    "temperature_spread": "median(Tmax−Tavg), cycles 1–100",
+    "early_drop_per100": "existing 10–100 slope after 7-point rolling median, multiplied by −100"
+  },
+  "stages": [
+    {
+      "id": "S0",
+      "title": "기존: 원 수명·분산",
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var"
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "로그 수명",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "+ ΔQ 최솟값",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "+ 초기 용량 특징",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "+ IR 변화율",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100",
+        "ir_fraction_change"
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "+ 온도 변화",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100",
+        "ir_fraction_change",
+        "tavg_change",
+        "temperature_spread"
+      ]
+    },
+    {
+      "id": "S6",
+      "title": "+ 충전시간 중앙값",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100",
+        "ir_fraction_change",
+        "tavg_change",
+        "temperature_spread",
+        "median_chargetime"
+      ]
+    },
+    {
+      "id": "S7",
+      "title": "+ C1·전환 SOC·C2",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100",
+        "ir_fraction_change",
+        "tavg_change",
+        "temperature_spread",
+        "median_chargetime",
+        "C1",
+        "switch_SOC",
+        "C2"
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "name": "linear",
+      "estimator": "LinearRegression",
+      "alpha": null,
+      "l1_ratio": null
+    },
+    {
+      "name": "ridge_0.1",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null
+    },
+    {
+      "name": "ridge_1",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null
+    },
+    {
+      "name": "ridge_10",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null
+    },
+    {
+      "name": "elasticnet_0.001_0.1",
+      "estimator": "ElasticNet",
+      "alpha": 0.001,
+      "l1_ratio": 0.1
+    },
+    {
+      "name": "elasticnet_0.001_0.5",
+      "estimator": "ElasticNet",
+      "alpha": 0.001,
+      "l1_ratio": 0.5
+    },
+    {
+      "name": "elasticnet_0.01_0.1",
+      "estimator": "ElasticNet",
+      "alpha": 0.01,
+      "l1_ratio": 0.1
+    },
+    {
+      "name": "elasticnet_0.01_0.5",
+      "estimator": "ElasticNet",
+      "alpha": 0.01,
+      "l1_ratio": 0.5
+    },
+    {
+      "name": "elasticnet_0.1_0.1",
+      "estimator": "ElasticNet",
+      "alpha": 0.1,
+      "l1_ratio": 0.1
+    },
+    {
+      "name": "elasticnet_0.1_0.5",
+      "estimator": "ElasticNet",
+      "alpha": 0.1,
+      "l1_ratio": 0.5
+    }
+  ],
+  "selection_bias": "71 candidate settings use the same CV; selected CV is optimistic. Cumulative stage changes do not isolate every feature's marginal effect.",
+  "data_files": [
+    {
+      "batch": "Batch1",
+      "name": "2017-05-12_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 3025320241,
+      "mtime_ns": 1713395514000000000
+    },
+    {
+      "batch": "Batch2",
+      "name": "2018-02-20_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 2022599329,
+      "mtime_ns": 1713395738000000000
+    },
+    {
+      "batch": "Batch3",
+      "name": "2018-04-12_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 3236690412,
+      "mtime_ns": 1713395890000000000
+    }
+  ],
+  "sha256": {
+    "features": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+    "split_manifest": "05d28f7618bd1d258ac12bafac132f3bcb02bb1d438363d37e85f10a61cc56d7",
+    "experiment_code": "46a4ca524784819ad9ce934a955cc1e177a7882baebcc6ecc81f0d92c3982c2c",
+    "label_audit": "ced8e39ddbaca07919630e2a8211bf8353d50d3c8306bc51b443fa42148bfdf8",
+    "model": "d8026f8d3e4f18b4fea3b5ac5c358abd314b0e8247df4daf71534060160010bd",
+    "modeling_code": "95d1e77fe101fb2a1d4a5978e72b9b7991fc362b2babbb4cb61c30a4f82e9850",
+    "parent_features": "4b9dfa1701f54f39b240332251c9a4636465b5b26911e23aadd28d5f0763b40b"
+  }
+}

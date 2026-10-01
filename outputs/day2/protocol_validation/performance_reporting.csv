@@ -1,0 +1,7 @@
+구분,MAPE (%),비고
+Train (Batch 1 CV),5.682635876395006,프로토콜 단위 5-fold 검증 평균
+Valid (Batch 1 Hold-out),8.923434032740037,7셀·4개 미관측 프로토콜
+Test (Batch 2),37.138478639532764,39셀; 이전 열람 이력이 있는 후속 평가
+Gap (Train-Valid),3.240798156345031,Valid − CV; %p
+Gap (Valid-Test),28.215044606792727,Test − Valid; %p
+Gap (Target-Test),28.038478639532762,Test − 과제 참고값9.1%; %p

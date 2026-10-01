@@ -1,0 +1,17 @@
+{
+  "frozen_utc": "2026-10-01T11:51:42.937144+00:00",
+  "representatives": [
+    "linear_iqr",
+    "pls_1"
+  ],
+  "comparison_selected": "linear_iqr",
+  "comparison_scope": "Existing variance and two new representatives",
+  "cv_scores": {
+    "linear_variance": 9.284543968596475,
+    "linear_iqr": 9.123111743867124,
+    "pls_1": 10.28310922407109
+  },
+  "holdout_used": false,
+  "batch2_used": false,
+  "overall_previous_final_candidate_automatically_replaced": false
+}

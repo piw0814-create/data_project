@@ -1,0 +1,59 @@
+{
+  "overall_cv_winner": "mape_raw_full_a0.01",
+  "family_cv_winners": {
+    "ridge_log": "ridge_minus_delta_Q_min",
+    "mae_raw": "mae_raw_minus_delta_Q_min_a0.01",
+    "mape_raw": "mape_raw_full_a0.01"
+  },
+  "selected_using": "Batch1 CV only",
+  "frozen_utc": "2026-10-01T10:50:09.622442+00:00",
+  "model_specs": {
+    "ridge_minus_delta_Q_min": {
+      "candidate": "ridge_minus_delta_Q_min",
+      "family": "ridge_log",
+      "removed": "delta_Q_min",
+      "title": "ΔQ 최솟값 제거",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 1.0,
+      "target": "log10"
+    },
+    "mae_raw_minus_delta_Q_min_a0.01": {
+      "candidate": "mae_raw_minus_delta_Q_min_a0.01",
+      "family": "mae_raw",
+      "removed": "delta_Q_min",
+      "title": "ΔQ 최솟값 제거",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 0.01,
+      "target": "raw"
+    },
+    "mape_raw_full_a0.01": {
+      "candidate": "mape_raw_full_a0.01",
+      "family": "mape_raw",
+      "removed": null,
+      "title": "5개 특징 유지",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 0.01,
+      "target": "raw"
+    }
+  },
+  "holdout_used_for_selection": false,
+  "batch2_used_for_selection": false,
+  "historical_holdout_and_batch2_results_already_seen": true,
+  "new_hypotheses_informed_by_previous_batch2_diagnosis": true
+}

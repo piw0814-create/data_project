@@ -1,0 +1,7 @@
+구분,MAPE (%),비고
+Train (Batch 1 CV),7.1076507084639955,28개 학습 셀의 동일 5-fold 검증 평균
+Valid (Batch 1 Hold-out),4.410205639126301,8개; 현재 선택에 사용하지 않음; 이전 평가 이력 있음
+Test (Batch 2),33.87570530725969,39개; 고정 모델 후속 평가; 새 독립 Test 아님
+Gap (Train-Valid),-2.697445069337695,Valid − CV; %p
+Gap (Valid-Test),29.465499668133393,Test − Valid; %p
+Gap (Target-Test),24.775705307259692,Test − 9.1; %p; 원논문과 조건 다른 참고 비교

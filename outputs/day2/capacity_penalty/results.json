@@ -1,0 +1,78 @@
+{
+  "comparison": [
+    {
+      "condition": "baseline",
+      "title": "기존 규제",
+      "initial_penalty": 1.0,
+      "cv_mape_pct": 7.697923629191938,
+      "cv_std_pp": 0.8641459227825354,
+      "holdout_mape_pct": 3.421158164283537,
+      "holdout_bias_cycles": -2.332222969019199,
+      "batch2_mape_pct": 38.1976338113057,
+      "batch2_bias_cycles": 190.7286879761674
+    },
+    {
+      "condition": "penalty10",
+      "title": "초기 용량 규제 10배",
+      "initial_penalty": 10.0,
+      "cv_mape_pct": 7.832140326023561,
+      "cv_std_pp": 1.2203572065971369,
+      "holdout_mape_pct": 3.9314733979613994,
+      "holdout_bias_cycles": -9.41080187704958,
+      "batch2_mape_pct": 35.433213523492135,
+      "batch2_bias_cycles": 173.413658044456
+    },
+    {
+      "condition": "penalty100",
+      "title": "초기 용량 규제 100배",
+      "initial_penalty": 100.0,
+      "cv_mape_pct": 9.134817972064702,
+      "cv_std_pp": 2.207436392882141,
+      "holdout_mape_pct": 5.8490332743185895,
+      "holdout_bias_cycles": -24.16545249881196,
+      "batch2_mape_pct": 29.829649868400477,
+      "batch2_bias_cycles": 138.4287026668703
+    },
+    {
+      "condition": "removed",
+      "title": "초기 용량 완전 제거",
+      "initial_penalty": null,
+      "cv_mape_pct": 9.805411844835666,
+      "cv_std_pp": 2.446606053979644,
+      "holdout_mape_pct": 6.607678139757287,
+      "holdout_bias_cycles": -29.909947623235254,
+      "batch2_mape_pct": 27.92414732419408,
+      "batch2_bias_cycles": 125.21155250036512
+    }
+  ],
+  "observed_cv_worse_batch2_better": [
+    "penalty10",
+    "penalty100",
+    "removed"
+  ],
+  "purpose": "Diagnostic tradeoff, not selection from Batch2",
+  "additional_tuning": false,
+  "final_model_changed": false,
+  "seed": 42,
+  "new_cv_fits": 10,
+  "new_development_fits": 3,
+  "raw_data_changed": false,
+  "batch3_evaluated": false,
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1"
+  },
+  "sha256": {
+    "code": "b6120c5c1227a3e32abfcf722ceeafe4ca4d8c5e99989484bbe3a4db95ec8b1e",
+    "features": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+    "manifest": "1890508fb8c52df09997bbd9099fa2aa222328f81ffde9a384bfeea239179b55",
+    "models": {
+      "baseline": "d8026f8d3e4f18b4fea3b5ac5c358abd314b0e8247df4daf71534060160010bd",
+      "penalty10": "e80dec73e27d63ccdcec6f2415665a01e5860bbafa2a4ddbc12245d83bab8b49",
+      "penalty100": "3180ca68b56474797309a9e113ab48ac3b63f1f4265311631100b4a07421a538",
+      "removed": "dafdd9b965737235c06968e08c49484a97573d171306f4ace81d2e1e751dd1c5"
+    }
+  }
+}

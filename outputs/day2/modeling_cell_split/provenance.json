@@ -1,0 +1,36 @@
+{
+  "raw_files": [
+    {
+      "batch": "Batch1",
+      "file": "2017-05-12_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 3025320241,
+      "mtime_ns": 1713395514000000000
+    },
+    {
+      "batch": "Batch2",
+      "file": "2018-02-20_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 2022599329,
+      "mtime_ns": 1713395738000000000
+    },
+    {
+      "batch": "Batch3",
+      "file": "2018-04-12_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 3236690412,
+      "mtime_ns": 1713395890000000000
+    }
+  ],
+  "feature_csv_sha256": "4b9dfa1701f54f39b240332251c9a4636465b5b26911e23aadd28d5f0763b40b",
+  "label_audit_sha256": "ced8e39ddbaca07919630e2a8211bf8353d50d3c8306bc51b443fa42148bfdf8",
+  "python": "3.11.15",
+  "seed": 42,
+  "code_sha256": {
+    "day2_features.py": "9556c394b960ccb9584e1e61f6c7a5d8fa184fc3ecaa889332b4ccb724671b8b",
+    "day2_modeling.py": "95d1e77fe101fb2a1d4a5978e72b9b7991fc362b2babbb4cb61c30a4f82e9850",
+    "day2_evaluation.py": "459b180136f90fdbfe8dbe953cd2f2f8bf8709e373b089d2d848f03013e58f89",
+    "run_day2.py": "823b4eff350f9d19fccffb0e3d26232aa9383408c65cb1b845f009dd818b6b27"
+  },
+  "input_cutoff_cycle": 100,
+  "target": "as-provided cycle_life, eligibility checked separately; no target imputation",
+  "heldout_evaluation": "Batch1 holdout only; previously evaluated Batch2 is not repeated",
+  "split_unit": "one independent cell per row"
+}

@@ -1,0 +1,120 @@
+{
+  "frozen_utc": "2026-10-01T13:50:31.880525+00:00",
+  "primary": "S3_elasticnet_0.001_0.5",
+  "cell_cv_diagnostic": "S3_elasticnet_0.001_0.5",
+  "feature_stage_winner": "S3_elasticnet_0.001_0.5",
+  "evaluated": [
+    "S3_elasticnet_0.001_0.5",
+    "S0_linear",
+    "control_five_log_ridge",
+    "control_five_mape"
+  ],
+  "specs": {
+    "S3_elasticnet_0.001_0.5": {
+      "candidate": "S3_elasticnet_0.001_0.5",
+      "phase": "features",
+      "stage": "S3",
+      "title": "+ 초기 용량 특징",
+      "family": "standard",
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1,
+      "name": "elasticnet_0.001_0.5",
+      "estimator": "ElasticNet",
+      "alpha": 0.001,
+      "l1_ratio": 0.5
+    },
+    "S0_linear": {
+      "candidate": "S0_linear",
+      "phase": "features",
+      "stage": "S0",
+      "title": "기존: 원 수명·분산",
+      "family": "standard",
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var"
+      ],
+      "removed": null,
+      "capacity_penalty": 1,
+      "name": "linear",
+      "estimator": "LinearRegression",
+      "alpha": null,
+      "l1_ratio": null
+    },
+    "control_five_log_ridge": {
+      "candidate": "control_five_log_ridge",
+      "phase": "control",
+      "stage": "control",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    "control_five_mape": {
+      "candidate": "control_five_mape",
+      "phase": "control",
+      "stage": "control",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    }
+  },
+  "model_hashes": {
+    "S3_elasticnet_0.001_0.5": "524b6fc3d0f9e49d51c29b7e2e3394ca901e1bc883a55a4d4377b8d04de3ca59",
+    "S0_linear": "034ab393a08ede29d8165f4e04cc2750a2f8d93bcad040ac2207b9bc26b6db99",
+    "control_five_log_ridge": "487ee840e74b7f6e607e3585148cf7a878a51cf044e7650a4dd2baa75baaecbe",
+    "control_five_mape": "16cd9d83d4f484933e8f0d88eb38c3246d4c08316311dd2a9bb210f983bf2826"
+  },
+  "primary_selection_metric": "protocol CV MAPE only",
+  "selected_before_evaluation": true,
+  "refit_including_holdout": false,
+  "n_stage_candidates": 81,
+  "n_refinement_candidates": 47,
+  "n_total_cv_fits": 1300,
+  "n_development": 29,
+  "n_holdout": 7,
+  "n_batch2_seen_protocol": 2,
+  "n_batch2_unseen_protocol": 37,
+  "cv_mape_pct": 5.682635876395006,
+  "holdout_mape_pct": 8.923434032740037,
+  "batch2_mape_pct": 37.138478639532764,
+  "feature_source_sha256": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "batch3_evaluated": false,
+  "input_cutoff_cycle": 100,
+  "interpretation": "Many development comparisons; reused holdout cells and previously seen Batch2. CV is selected performance, not unbiased generalization proof."
+}

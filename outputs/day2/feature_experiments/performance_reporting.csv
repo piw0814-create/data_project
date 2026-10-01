@@ -1,0 +1,7 @@
+구분,MAPE (%),비고
+Train (Batch 1 CV),7.697923629191938,동일 28개 셀·동일 5-fold 검증 MAPE 평균
+Valid (Batch 1 Hold-out),3.421158164283537,8개 셀; 후보 선택에 사용하지 않음
+Test (Batch 2),38.1976338113057,39개 셀; CV 선택 후 고정 모델 재평가
+Gap (Train-Valid),-4.276765464908401,Valid − CV; %p
+Gap (Valid-Test),34.77647564702216,Test − Valid; %p
+Gap (Target-Test),29.0976338113057,Test − 9.1; %p; 참고 비교

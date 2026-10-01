@@ -1,0 +1,21 @@
+{
+  "selected_candidate": "S3_ridge_1",
+  "selected_using": "Batch1 mean five-fold validation MAPE only",
+  "seed": 42,
+  "n_fit_cells": 28,
+  "selection_frozen_before_external_evaluation": true,
+  "stage": "S3",
+  "title": "+ 초기 용량 특징",
+  "target": "log10",
+  "features": [
+    "log10_delta_Q_var",
+    "delta_Q_min",
+    "qd_initial_median",
+    "qd_fraction_change",
+    "early_drop_per100"
+  ],
+  "name": "ridge_1",
+  "estimator": "Ridge",
+  "alpha": 1.0,
+  "l1_ratio": null
+}

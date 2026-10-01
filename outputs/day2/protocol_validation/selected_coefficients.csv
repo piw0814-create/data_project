@@ -1,0 +1,6 @@
+feature,standardized_coefficient,nonzero
+log10_delta_Q_var,-0.0,False
+delta_Q_min,0.07718957002813343,True
+qd_initial_median,0.030425989868929616,True
+qd_fraction_change,-0.007636045119528385,True
+early_drop_per100,0.0,False

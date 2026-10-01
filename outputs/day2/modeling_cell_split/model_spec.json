@@ -1,0 +1,38 @@
+{
+  "selected_name": "linear_F0",
+  "selection_is_provisional": true,
+  "evaluation_status": "cv_selected_pending_holdout",
+  "fit_scope": "Batch1 development only",
+  "feature_set": "F0",
+  "feature_names": [
+    "log10_delta_Q_var"
+  ],
+  "estimator": "LinearRegression",
+  "alpha": null,
+  "l1_ratio": null,
+  "max_iter": null,
+  "tol": null,
+  "target_transform": "none; raw cycle_life",
+  "pipeline_steps": [
+    "SimpleImputer(strategy=median)",
+    "StandardScaler",
+    "LinearRegression"
+  ],
+  "ridge_solver": null,
+  "dummy_strategy": null,
+  "prediction_input": "DataFrame containing exactly feature_names in that order",
+  "prediction_clipping": "none",
+  "seed": 42,
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0"
+  },
+  "selection_metric": "cv_mean_mape_pct",
+  "tie_break": "declared candidate order",
+  "n_fit_cells": 28,
+  "development_sha256": "fb343de650f931568eafaf335cc407a0f695c45f9ec9d2164a6b2e040e874aa5"
+}

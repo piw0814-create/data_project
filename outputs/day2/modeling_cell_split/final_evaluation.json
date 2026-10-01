@@ -1,0 +1,33 @@
+{
+  "evaluation_status": "completed",
+  "selection_is_provisional": false,
+  "selected_name": "linear_F0",
+  "frozen_run_sha256": "1c9762e69f252db30937a52867180e9059c4be23681ce13af4e057805d5d2835",
+  "train_cv_mean_mape_pct": 9.284543968596475,
+  "train_pooled_oof_mape_pct": 9.19502543590772,
+  "valid": {
+    "n": 8,
+    "mape_pct": 6.438609783784499,
+    "mae": 54.957948576930406,
+    "rmse": 67.98636540994211,
+    "r2": 0.8058664938341831
+  },
+  "test_batch2": {
+    "n": 39,
+    "mape_pct": 26.18567870657303,
+    "mae": 131.48055527548883,
+    "rmse": 152.51129189905046,
+    "r2": 0.5165066203894302
+  },
+  "target_mape_pct": 9.1,
+  "batch3_evaluation": "not run (optional)",
+  "final_fit_scope": "Batch1 development only; same pipeline for Valid/Test",
+  "refit_after_holdout": false,
+  "selected_using": "Batch1 mean CV MAPE only",
+  "gap_units": "percentage points; later-stage error minus earlier-stage error",
+  "benchmark_limit": "local Batch2 file, cohort, feature set and target transform differ from original paper",
+  "label_limit": "Batch1 uses supplied stopping-boundary labels, not directly observed below-0.88 crossings",
+  "batch2_context": "Previously evaluated with the protocol-split model; this is a user-requested reevaluation of the frozen cell-split model.",
+  "evaluation_kind": "user_requested_retest",
+  "test_used_for_selection": false
+}

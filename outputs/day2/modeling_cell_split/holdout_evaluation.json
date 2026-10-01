@@ -1,0 +1,24 @@
+{
+  "evaluation_status": "holdout_completed_external_test_not_repeated",
+  "selected_name": "linear_F0",
+  "frozen_run_sha256": "2eaf1d79d62f2f3e8b89b6d26a66fdd83d720244cb90bfeef4bc25555b4fede8",
+  "train_cv_mean_mape_pct": 9.284543968596475,
+  "train_pooled_oof_mape_pct": 9.19502543590772,
+  "valid": {
+    "n": 8,
+    "mape_pct": 6.438609783784499,
+    "mae": 54.957948576930406,
+    "rmse": 67.98636540994211,
+    "r2": 0.8058664938341831
+  },
+  "test_batch2": null,
+  "test_batch3": null,
+  "batch2_predictions_run": false,
+  "batch3_predictions_run": false,
+  "selected_using": "Batch1 mean CV MAPE only",
+  "refit_after_holdout": false,
+  "target_mape_pct": 9.1,
+  "previous_test_results": "../modeling/final_evaluation.json (different split/model)",
+  "revision_reason": "Use cell splitting for the assignment goal; no requirement to exclude shared policies",
+  "honesty_note": "The same Batch1 cells were used in an earlier development run; holdout is a development check, not a new independent test."
+}

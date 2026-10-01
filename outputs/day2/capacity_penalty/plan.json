@@ -1,0 +1,40 @@
+{
+  "frozen_utc": "2026-10-01T11:24:54.424069+00:00",
+  "seed": 42,
+  "hypothesis": "Reduced initial-capacity dependence may worsen Batch1 CV but reduce Batch2 overprediction",
+  "conditions": [
+    {
+      "name": "baseline",
+      "title": "기존 규제",
+      "initial_capacity_penalty": 1.0
+    },
+    {
+      "name": "penalty10",
+      "title": "초기 용량 규제 10배",
+      "initial_capacity_penalty": 10.0
+    },
+    {
+      "name": "penalty100",
+      "title": "초기 용량 규제 100배",
+      "initial_capacity_penalty": 100.0
+    },
+    {
+      "name": "removed",
+      "title": "초기 용량 완전 제거",
+      "initial_capacity_penalty": null
+    }
+  ],
+  "other_feature_penalties": 1.0,
+  "target": "log10 provided cycle_life",
+  "fit_scope": "Batch1 development28 only; same CV5 and holdout8",
+  "baseline": "Reuse existing model and saved scores",
+  "removal": "Reuse existing five-fold scores; fit one development-only control for previously unscored holdout/Batch2",
+  "new_cv_models": [
+    "penalty10",
+    "penalty100"
+  ],
+  "batch2_context": "Already seen; preset follow-up diagnostic, not an untouched independent test",
+  "select_using_batch2": false,
+  "final_model_reselection": false,
+  "more_tuning": false
+}

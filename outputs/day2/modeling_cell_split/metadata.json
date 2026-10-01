@@ -1,0 +1,236 @@
+{
+  "evaluation_status": "cv_selected_pending_holdout",
+  "selection_is_provisional": true,
+  "holdout_predictions_run": false,
+  "holdout_metrics_run": false,
+  "batch2_predictions_run": false,
+  "batch3_predictions_run": false,
+  "final_test_requires": "Batch2 was already evaluated in the earlier run; no automatic retest in this revision.",
+  "final_evaluation_authorized": false,
+  "external_batch_context": "Batch2 was previously evaluated; this revision uses only Batch1 scores.",
+  "created_utc": "2026-10-01T09:12:43.817395+00:00",
+  "seed": 42,
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0"
+  },
+  "split": {
+    "cell_key": [
+      "batch",
+      "cell_id"
+    ],
+    "unit": "independent cell",
+    "method": "train_test_split",
+    "n_splits": 1,
+    "batch": "Batch1",
+    "holdout_fraction": 0.2,
+    "holdout_rounding": "ceil(0.2 * eligible_batch1_cells)",
+    "random_state": 42,
+    "policy_overlap_allowed": true,
+    "policy_normalization": "strip edges and collapse whitespace; no policy-number rounding",
+    "n_development_groups": 17,
+    "input_order": "sort by batch and string cell_id before splitting",
+    "role_counts": {
+      "external_reserved": 83,
+      "development": 28,
+      "excluded": 20,
+      "holdout": 8
+    }
+  },
+  "cv": {
+    "method": "KFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42,
+    "shared_folds": true,
+    "fold_assignment_column": "split_manifest.csv:cv_fold"
+  },
+  "primary_metric": "cv_mean_mape_pct",
+  "secondary_metric": "pooled_oof_mape_pct",
+  "cv_aggregation": "Unweighted arithmetic mean of five validation-fold scores; R2 averages defined folds only.",
+  "metric_units": {
+    "mape_pct": "percent",
+    "mae": "cycles",
+    "rmse": "cycles",
+    "r2": "unitless"
+  },
+  "gap_definition": "OOF minus full-development train (errors); train minus OOF (R2). Per-fold gaps compare validation with that fold's train.",
+  "train_metrics_scope": "Resubstitution on full development, optimistic diagnostics only.",
+  "r2_policy": "Null if targets are constant; never force an undefined R2 to 0 or 1.",
+  "negative_prediction_policy": "Preserve raw predictions; no clipping; counts and flags exported.",
+  "target_transform": "none; raw cycle_life",
+  "elasticnet_context": "Severson 2019 used a log-life target; this raw-target F1 adaptation is not a replication.",
+  "elasticnet_settings": {
+    "alpha": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "l1_ratio": [
+      0.1,
+      0.5
+    ],
+    "max_iter": 10000,
+    "tol": 0.0001,
+    "tol_policy": "scikit-learn default",
+    "selection": "cyclic",
+    "fit_intercept": true
+  },
+  "selection_bias_note": "OOF is reused to select features/alpha, so selected OOF is not a final unbiased test.",
+  "feature_sets": {
+    "F0": [
+      "log10_delta_Q_var"
+    ],
+    "F1": [
+      "log10_delta_Q_var",
+      "median_chargetime",
+      "mean_Tavg"
+    ]
+  },
+  "candidates": [
+    {
+      "name": "dummy_mean",
+      "feature_set": "F0",
+      "estimator": "DummyRegressor",
+      "alpha": null,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "linear_F0",
+      "feature_set": "F0",
+      "estimator": "LinearRegression",
+      "alpha": null,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "linear_F1",
+      "feature_set": "F1",
+      "estimator": "LinearRegression",
+      "alpha": null,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "ridge_F1_alpha_0.1",
+      "feature_set": "F1",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "ridge_F1_alpha_1",
+      "feature_set": "F1",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "ridge_F1_alpha_10",
+      "feature_set": "F1",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "ridge_F1_alpha_100",
+      "feature_set": "F1",
+      "estimator": "Ridge",
+      "alpha": 100.0,
+      "l1_ratio": null,
+      "max_iter": null,
+      "tol": null
+    },
+    {
+      "name": "elasticnet_F1_alpha_0.1_l1_ratio_0.1",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 0.1,
+      "l1_ratio": 0.1,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_0.1_l1_ratio_0.5",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 0.1,
+      "l1_ratio": 0.5,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_1_l1_ratio_0.1",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 1.0,
+      "l1_ratio": 0.1,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_1_l1_ratio_0.5",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 1.0,
+      "l1_ratio": 0.5,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_10_l1_ratio_0.1",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 10.0,
+      "l1_ratio": 0.1,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_10_l1_ratio_0.5",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 10.0,
+      "l1_ratio": 0.5,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_100_l1_ratio_0.1",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 100.0,
+      "l1_ratio": 0.1,
+      "max_iter": 10000,
+      "tol": 0.0001
+    },
+    {
+      "name": "elasticnet_F1_alpha_100_l1_ratio_0.5",
+      "feature_set": "F1",
+      "estimator": "ElasticNet",
+      "alpha": 100.0,
+      "l1_ratio": 0.5,
+      "max_iter": 10000,
+      "tol": 0.0001
+    }
+  ],
+  "input_provenance": "MAIN supplies extraction/source version; this module reads no source files.",
+  "upstream_assumption": "model_eligible and initial-cycle feature timing are established by MAIN.",
+  "development_sha256": "fb343de650f931568eafaf335cc407a0f695c45f9ec9d2164a6b2e040e874aa5",
+  "manifest_sha256": "05d28f7618bd1d258ac12bafac132f3bcb02bb1d438363d37e85f10a61cc56d7"
+}

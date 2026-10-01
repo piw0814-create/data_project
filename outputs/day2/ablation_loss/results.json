@@ -1,0 +1,166 @@
+{
+  "overall_cv_winner": "mape_raw_full_a0.01",
+  "family_cv_winners": {
+    "ridge_log": "ridge_minus_delta_Q_min",
+    "mae_raw": "mae_raw_minus_delta_Q_min_a0.01",
+    "mape_raw": "mape_raw_full_a0.01"
+  },
+  "selected_using": "Batch1 CV only",
+  "frozen_utc": "2026-10-01T10:50:09.622442+00:00",
+  "model_specs": {
+    "ridge_minus_delta_Q_min": {
+      "candidate": "ridge_minus_delta_Q_min",
+      "family": "ridge_log",
+      "removed": "delta_Q_min",
+      "title": "ΔQ 최솟값 제거",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 1.0,
+      "target": "log10"
+    },
+    "mae_raw_minus_delta_Q_min_a0.01": {
+      "candidate": "mae_raw_minus_delta_Q_min_a0.01",
+      "family": "mae_raw",
+      "removed": "delta_Q_min",
+      "title": "ΔQ 최솟값 제거",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 0.01,
+      "target": "raw"
+    },
+    "mape_raw_full_a0.01": {
+      "candidate": "mape_raw_full_a0.01",
+      "family": "mape_raw",
+      "removed": null,
+      "title": "5개 특징 유지",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "alpha": 0.01,
+      "target": "raw"
+    }
+  },
+  "holdout_used_for_selection": false,
+  "batch2_used_for_selection": false,
+  "historical_holdout_and_batch2_results_already_seen": true,
+  "new_hypotheses_informed_by_previous_batch2_diagnosis": true,
+  "cv_mape_pct": 7.1076507084639955,
+  "n_candidates": 35,
+  "n_cv_fits": 175,
+  "seed": 42,
+  "evaluation": [
+    {
+      "candidate": "ridge_minus_delta_Q_min",
+      "family": "ridge_log",
+      "evaluation": "Valid (Batch 1 Hold-out)",
+      "n": 8,
+      "mape_pct": 4.180738455795869,
+      "mae": 33.356549100528085,
+      "rmse": 39.75463209159054,
+      "r2": 0.9336207521312325,
+      "mean_prediction_minus_actual": -1.1041388893788877,
+      "underprediction_pct": 37.5,
+      "nonpositive_predictions": 0
+    },
+    {
+      "candidate": "ridge_minus_delta_Q_min",
+      "family": "ridge_log",
+      "evaluation": "Test (Batch 2)",
+      "n": 39,
+      "mape_pct": 43.588276035387935,
+      "mae": 226.43632520802063,
+      "rmse": 242.741653880642,
+      "r2": -0.22482811046838602,
+      "mean_prediction_minus_actual": 214.8020344603726,
+      "underprediction_pct": 5.128205128205128,
+      "nonpositive_predictions": 0
+    },
+    {
+      "candidate": "mae_raw_minus_delta_Q_min_a0.01",
+      "family": "mae_raw",
+      "evaluation": "Valid (Batch 1 Hold-out)",
+      "n": 8,
+      "mape_pct": 3.5486470993776944,
+      "mae": 29.880862714426087,
+      "rmse": 41.32585691647473,
+      "r2": 0.9282700405553939,
+      "mean_prediction_minus_actual": -11.715392832445502,
+      "underprediction_pct": 62.5,
+      "nonpositive_predictions": 0
+    },
+    {
+      "candidate": "mae_raw_minus_delta_Q_min_a0.01",
+      "family": "mae_raw",
+      "evaluation": "Test (Batch 2)",
+      "n": 39,
+      "mape_pct": 33.14663010346033,
+      "mae": 174.54003540860379,
+      "rmse": 192.6051424424714,
+      "r2": 0.2288794294907388,
+      "mean_prediction_minus_actual": 164.0076633286063,
+      "underprediction_pct": 7.6923076923076925,
+      "nonpositive_predictions": 0
+    },
+    {
+      "candidate": "mape_raw_full_a0.01",
+      "family": "mape_raw",
+      "evaluation": "Valid (Batch 1 Hold-out)",
+      "n": 8,
+      "mape_pct": 4.410205639126301,
+      "mae": 39.89121436640272,
+      "rmse": 58.4859073842487,
+      "r2": 0.8563322420556138,
+      "mean_prediction_minus_actual": -23.87185140923785,
+      "underprediction_pct": 75.0,
+      "nonpositive_predictions": 0
+    },
+    {
+      "candidate": "mape_raw_full_a0.01",
+      "family": "mape_raw",
+      "evaluation": "Test (Batch 2)",
+      "n": 39,
+      "mape_pct": 33.87570530725969,
+      "mae": 175.15624520275722,
+      "rmse": 189.68129364843392,
+      "r2": 0.2521137689611672,
+      "mean_prediction_minus_actual": 149.90392808124346,
+      "underprediction_pct": 7.6923076923076925,
+      "nonpositive_predictions": 0
+    }
+  ],
+  "refit_including_holdout": false,
+  "batch3_evaluated": false,
+  "weights_min": 0.000931098696461825,
+  "weights_max": 0.0018726591760299626,
+  "weight_max_min_ratio": 2.0112359550561796,
+  "uncertainty": "Fixed small development set; repeated prior CV and holdout use; exploration, not independent proof",
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "sha256": {
+    "code": "f0c8c0f76b27e37eaf71a875a680594d51829d964bf54c336408efa9e5baa88e",
+    "features": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+    "manifest": "1890508fb8c52df09997bbd9099fa2aa222328f81ffde9a384bfeea239179b55",
+    "models": {
+      "ridge_minus_delta_Q_min": "af036c86fa04986df9f33e89bf4311686c1808d18768f753bc9b36d440d6fb93",
+      "mae_raw_minus_delta_Q_min_a0.01": "2df895e2a25f6b643bd908da09b0f7d7a2e055e65807dcd57c11b05199201567",
+      "mape_raw_full_a0.01": "af69946c503859534b2ccd54be6072efada28d8f107dd8df53d7b317bd4e87fe"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+numpy
+pandas
+scipy
+matplotlib
+h5py
+mat73
+scikit-learn
+ipykernel
+jupyterlab
+joblib
+nbformat

@@ -1,0 +1,70 @@
+{
+  "comparison": [
+    {
+      "candidate": "linear_variance",
+      "cv_mape_pct": 9.284543968596475,
+      "holdout_mape_pct": 6.438609783784499,
+      "holdout_bias_cycles": -24.47934382252994,
+      "batch2_mape_pct": 26.18567870657303,
+      "batch2_bias_cycles": 119.48539602658987
+    },
+    {
+      "candidate": "linear_iqr",
+      "cv_mape_pct": 9.123111743867124,
+      "holdout_mape_pct": 5.725190805662571,
+      "holdout_bias_cycles": -22.81983538738932,
+      "batch2_mape_pct": 30.56498978850339,
+      "batch2_bias_cycles": 155.94065384926802
+    },
+    {
+      "candidate": "pls_1",
+      "cv_mape_pct": 10.28310922407109,
+      "holdout_mape_pct": 8.208909051379027,
+      "holdout_bias_cycles": -31.253745382661478,
+      "batch2_mape_pct": 29.43328312477104,
+      "batch2_bias_cycles": 94.38591301871719
+    }
+  ],
+  "selected": "linear_iqr",
+  "pls_selected": "pls_1",
+  "new_cv_fits": 20,
+  "new_development_fits": 2,
+  "target_transform": "none",
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "h5py": "3.16.0",
+    "joblib": "1.6.0"
+  },
+  "full_voltage_points": 1000,
+  "raw_data_changed": false,
+  "batch3_read": false,
+  "negative_prediction_counts": {
+    "linear_iqr": 0,
+    "linear_variance": 0,
+    "pls_1": 0
+  },
+  "prior_final_candidate_changed": false,
+  "selection_before_external_scoring": true,
+  "source_files": {
+    "Batch1": {
+      "filename": "2017-05-12_batchdata_updated_struct_errorcorrect.mat",
+      "size": 3025320241
+    },
+    "Batch2": {
+      "filename": "2018-02-20_batchdata_updated_struct_errorcorrect.mat",
+      "size": 2022599329
+    }
+  },
+  "hashes": {
+    "code": "93133107ebad2a47a5a5adb2ec2f50101561c500e172c4262ad2a3998f37bc22",
+    "prior_features": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+    "manifest": "1890508fb8c52df09997bbd9099fa2aa222328f81ffde9a384bfeea239179b55",
+    "model_hashes": {
+      "linear_iqr": "7b68c9478e09bbcb245a00bca94adba2377d8f7307c8aeb4016181681c6ca75c",
+      "pls_1": "9763b9c07c5ceb8952dc948ab0d429fe9baac0aae85cc9f1e0ab2765ab95ee40"
+    }
+  }
+}

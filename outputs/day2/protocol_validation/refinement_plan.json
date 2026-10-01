@@ -1,0 +1,863 @@
+{
+  "frozen_before_refinement": true,
+  "feature_winner": "S3_elasticnet_0.001_0.5",
+  "candidates": [
+    {
+      "candidate": "R_ridge_full_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_full_a1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_full_a10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_full_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_full_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_full_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_full_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_full_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_full_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_delta_Q_min_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_delta_Q_min_a1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_delta_Q_min_a10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_delta_Q_min_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_delta_Q_min_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_delta_Q_min_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_delta_Q_min_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_delta_Q_min_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_delta_Q_min_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "delta_Q_min",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_initial_median_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_initial_median_a1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_initial_median_a10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_initial_median_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_initial_median_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_initial_median_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_initial_median_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_initial_median_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_initial_median_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": "qd_initial_median",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_fraction_change_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_fraction_change_a1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_qd_fraction_change_a10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_fraction_change_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_fraction_change_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_qd_fraction_change_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_fraction_change_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_fraction_change_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_qd_fraction_change_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "early_drop_per100"
+      ],
+      "removed": "qd_fraction_change",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_early_drop_per100_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_early_drop_per100_a1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_ridge_minus_early_drop_per100_a10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 10.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_early_drop_per100_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_early_drop_per100_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mae_raw_minus_early_drop_per100_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mae_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_early_drop_per100_a0",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.0,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_early_drop_per100_a0.01",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.01,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_mape_raw_minus_early_drop_per100_a0.1",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "mape_raw",
+      "estimator": "QuantileRegressor",
+      "alpha": 0.1,
+      "l1_ratio": null,
+      "target": "raw",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change"
+      ],
+      "removed": "early_drop_per100",
+      "capacity_penalty": 1
+    },
+    {
+      "candidate": "R_initial_penalty_10",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 10
+    },
+    {
+      "candidate": "R_initial_penalty_100",
+      "phase": "refinement",
+      "stage": "R",
+      "family": "standard",
+      "estimator": "Ridge",
+      "alpha": 1.0,
+      "l1_ratio": null,
+      "target": "log10",
+      "features": [
+        "log10_delta_Q_var",
+        "delta_Q_min",
+        "qd_initial_median",
+        "qd_fraction_change",
+        "early_drop_per100"
+      ],
+      "removed": null,
+      "capacity_penalty": 100
+    }
+  ]
+}

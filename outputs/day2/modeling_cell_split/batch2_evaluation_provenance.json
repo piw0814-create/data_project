@@ -1,0 +1,7 @@
+{
+  "model_sha256": "b22313468a53156e8446f3466046495f43bd7a961cfd436ea841395294901b8b",
+  "input_csv_sha256": "4b9dfa1701f54f39b240332251c9a4636465b5b26911e23aadd28d5f0763b40b",
+  "evaluation_code_sha256": "6fa7b32601a5a02cba23de98140c67dc379c59fa20fc960fc9a9da4370c98035",
+  "authorization": "User requested applying the already trained model to Batch2",
+  "fit_or_tuning_performed": false
+}

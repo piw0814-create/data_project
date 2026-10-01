@@ -1,0 +1,16 @@
+candidate,evaluation,life_band,n,mape_pct,mean_prediction_minus_actual
+mae_raw_minus_delta_Q_min_a0.01,Test (Batch 2),<=500,28,34.96316101326558,155.67751117772227
+mae_raw_minus_delta_Q_min_a0.01,Test (Batch 2),500-1000,8,35.17827376264175,256.88334149445996
+mae_raw_minus_delta_Q_min_a0.01,Test (Batch 2),>1000,3,10.774625187460915,-5.9127250387527965
+mae_raw_minus_delta_Q_min_a0.01,Valid (Batch 1 Hold-out),500-1000,7,2.791877823337348,-0.06942357798090727
+mae_raw_minus_delta_Q_min_a0.01,Valid (Batch 1 Hold-out),>1000,1,8.84603203166012,-93.23717761369767
+mape_raw_full_a0.01,Test (Batch 2),<=500,28,37.24559101549045,162.8595379984137
+mape_raw_full_a0.01,Test (Batch 2),500-1000,8,28.841241706898238,200.98097406366264
+mape_raw_full_a0.01,Test (Batch 2),>1000,3,15.848674964736597,-107.22055376546321
+mape_raw_full_a0.01,Valid (Batch 1 Hold-out),500-1000,7,3.118495006680006,-7.02697619651771
+mape_raw_full_a0.01,Valid (Batch 1 Hold-out),>1000,1,13.452180066250362,-141.78597789827882
+ridge_minus_delta_Q_min,Test (Batch 2),<=500,28,47.369228298149245,212.37392089853364
+ridge_minus_delta_Q_min,Test (Batch 2),500-1000,8,41.51156721574779,304.06385310678695
+ridge_minus_delta_Q_min,Test (Batch 2),>1000,3,13.837278435322814,-0.5670886862355928
+ridge_minus_delta_Q_min,Valid (Batch 1 Hold-out),500-1000,7,3.697123475670883,10.130426491811265
+ridge_minus_delta_Q_min,Valid (Batch 1 Hold-out),>1000,1,7.566043316670775,-79.74609655770996

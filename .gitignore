@@ -1,25 +1,22 @@
-# Local workspace configuration
-AGENTS.md
-CLAUDE.md
-GEMINI.md
-.codex/
-.claude/
-.cursor/
-.windsurf/
-.continue/
-.gemini/
-.aider*
-.github/copilot-instructions.md
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
 
-# Private working notes and coordination
-/PROJECT_INSTRUCTIONS.md
-/프로젝트_역할설정.md
-/THREADS.json
-/LEARNED_KNOWLEDGE.md
-/ANALYSIS_REMINDERS.md
-/prompts/
-/handoffs/
-/decisions/
+# Original datasets and read-only course references stay local.
+/data/*
+!/data/README.md
+/sources/
 
-# Current local setup guide
-/README.md
+# Rebuildable submission archive and superseded PDF export.
+/submission.zip
+/outputs/final/*.pdf
+
+# Local credentials and editor settings.
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
