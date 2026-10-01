@@ -8,4 +8,4 @@
 *.joblib binary
 
 # Frozen evidence is hashed byte-for-byte; preserve its original line endings.
-outputs/** -text
+outputs/** -text !eol whitespace=cr-at-eol
