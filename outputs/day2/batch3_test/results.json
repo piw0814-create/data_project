@@ -1,0 +1,104 @@
+{
+  "plan": {
+    "created_utc": "2026-10-01T22:56:44.172216+00:00",
+    "seed": 42,
+    "primary": "S3_elasticnet_0.001_0.5",
+    "candidates": [
+      "S3_elasticnet_0.001_0.5",
+      "S0_linear"
+    ],
+    "candidate_choice": "Existing protocol-CV winner plus preset one-feature control; fixed before scoring",
+    "specs": {
+      "S3_elasticnet_0.001_0.5": {
+        "candidate": "S3_elasticnet_0.001_0.5",
+        "phase": "features",
+        "stage": "S3",
+        "title": "+ 초기 용량 특징",
+        "family": "standard",
+        "target": "log10",
+        "features": [
+          "log10_delta_Q_var",
+          "delta_Q_min",
+          "qd_initial_median",
+          "qd_fraction_change",
+          "early_drop_per100"
+        ],
+        "removed": null,
+        "capacity_penalty": 1,
+        "name": "elasticnet_0.001_0.5",
+        "estimator": "ElasticNet",
+        "alpha": 0.001,
+        "l1_ratio": 0.5
+      },
+      "S0_linear": {
+        "candidate": "S0_linear",
+        "phase": "features",
+        "stage": "S0",
+        "title": "기존: 원 수명·분산",
+        "family": "standard",
+        "target": "raw",
+        "features": [
+          "log10_delta_Q_var"
+        ],
+        "removed": null,
+        "capacity_penalty": 1,
+        "name": "linear",
+        "estimator": "LinearRegression",
+        "alpha": null,
+        "l1_ratio": null
+      }
+    },
+    "model_hashes": {
+      "S3_elasticnet_0.001_0.5": "524b6fc3d0f9e49d51c29b7e2e3394ca901e1bc883a55a4d4377b8d04de3ca59",
+      "S0_linear": "034ab393a08ede29d8165f4e04cc2750a2f8d93bcad040ac2207b9bc26b6db99"
+    },
+    "input_hashes": {
+      "outputs/day2/feature_experiments/cell_features.csv": "81f32278e389d759f8010fe644f960e6e2a5d57b67cb63c866c731f7b5306b0b",
+      "outputs/day2/label_audit.csv": "ced8e39ddbaca07919630e2a8211bf8353d50d3c8306bc51b443fa42148bfdf8",
+      "outputs/day2/protocol_validation/selection.json": "a1a5d12511db91819bfeb46a3f7c1766269d985c2c1a34b4d17547ab97df3949",
+      "outputs/day2/protocol_validation/split_manifest.csv": "9f5323760378e598f493889011053224047060675b13135c89f7e926cc38e894",
+      "outputs/day2/protocol_validation/model_comparison.csv": "5432ed97d1b19e4418e7fc83c7f08e65cb959e7f904de39d2af1e977437f3762",
+      "outputs/day2/protocol_validation/evaluation_metrics.csv": "4d214fa2330588a1d0106aa7555bbf69c5e1cf7dc2fe1bf519ae9497f6af237a",
+      "outputs/day2/protocol_validation/evaluation_predictions.csv": "2978a7419029818c7f5dbec0ba5f9c2a4e98150fc57684b9122534fceb137053"
+    },
+    "input_cutoff_cycle": 100,
+    "fit_cells": 29,
+    "holdout_cells": 7,
+    "exclusion_rule": "Existing valid provided labels, cycle_life>100 and valid early curves; no error-based deletion",
+    "raw_source": {
+      "file": "2018-04-12_batchdata_updated_struct_errorcorrect.mat",
+      "size_bytes": 3236690412,
+      "mtime_ns": 1713395890000000000
+    },
+    "raw_curve_policy": "Same finite voltage grid; within-cell Q100(V)-Q10(V); no Batch3-derived alignment or scaling",
+    "target": "Provided total cycle_life; exact EOL crossing is not redefined",
+    "batch3_prior_use": "Previously inspected in EDA and feature distributions; first model scoring, not completely unseen data",
+    "model_fit": false,
+    "model_selection_changed": false,
+    "refit_including_holdout": false,
+    "versions": {
+      "python": "3.11.15",
+      "numpy": "2.4.6",
+      "pandas": "3.0.6",
+      "sklearn": "1.9.1",
+      "joblib": "1.6.0"
+    },
+    "code_sha256": "d2e2e7f5d561392d19917ee8530bf275caee695a8500464ab799f8f7b6d499f9",
+    "git_commit": "e637bd9fa5ae513c69cb0617a9b1f4a9fd6a3a90"
+  },
+  "completed_utc": "2026-10-01T22:56:44.751296+00:00",
+  "n_raw": 46,
+  "n_test": 44,
+  "excluded_cell_ids": [
+    "23",
+    "32"
+  ],
+  "new_predictions": 88,
+  "new_model_fits": 0,
+  "primary_batch3_mape_pct": 15.099235456015451,
+  "primary_batch2_to_batch3_gap_pp": -22.03924318351732,
+  "model_hashes_after": {
+    "S3_elasticnet_0.001_0.5": "524b6fc3d0f9e49d51c29b7e2e3394ca901e1bc883a55a4d4377b8d04de3ca59",
+    "S0_linear": "034ab393a08ede29d8165f4e04cc2750a2f8d93bcad040ac2207b9bc26b6db99"
+  }
+}

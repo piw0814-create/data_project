@@ -15,7 +15,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "outputs/day2"
 EXPERIMENTS = ("modeling_cell_split", "feature_experiments", "ablation_loss",
-               "capacity_penalty", "curve_models", "protocol_validation")
+               "capacity_penalty", "curve_models", "protocol_validation", "batch3_test")
 
 
 def require(condition, message):
@@ -49,6 +49,8 @@ def verify_experiment(name):
     metrics_path = folder / "evaluation_metrics.csv"
     if metrics_path.exists():
         saved = pd.read_csv(metrics_path)
+        if name == "batch3_test":
+            saved = saved.loc[saved.evaluation.eq("Test (Batch 3)")]
         if "split" in saved:
             saved["evaluation"] = saved["split"].map(
                 {"Valid": "Valid (Batch 1 Hold-out)", "Test Batch2": "Test (Batch 2)"})
@@ -58,6 +60,29 @@ def verify_experiment(name):
         for metric in ("n", "mape_pct", "mae", "rmse", "r2"):
             np.testing.assert_allclose(joined[metric + "_check"], joined[metric + "_saved"],
                                        rtol=1e-9, atol=1e-9)
+    if name == "batch3_test":
+        result = json.loads((folder / "results.json").read_text(encoding="utf-8"))
+        plan = result["plan"]
+        require(result["new_model_fits"] == 0 and not plan["model_selection_changed"],
+                "Batch3 test changed training/selection")
+        for path, expected in plan["input_hashes"].items():
+            require(hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == expected,
+                    f"Batch3 frozen input changed: {path}")
+        for model, expected in plan["model_hashes"].items():
+            require(hashlib.sha256((BASE / "protocol_validation" / f"{model}.joblib").read_bytes()).hexdigest() == expected,
+                    "Batch3 frozen model changed")
+        require(predictions.batch.eq("Batch3").all() and len(predictions) == 88,
+                "Unexpected Batch3 predictions")
+        audit = pd.read_csv(folder / "input_audit.csv")
+        require(len(audit) == 46 and audit.included.sum() == 44
+                and audit.raw_features_match_cache.all()
+                and audit.loc[audit.included, ["finite_model_inputs", "input_horizon_ok"]].all().all(),
+                "Batch3 audit failed")
+        values = pd.read_csv(folder / "performance_reporting.csv")["MAPE (%)"]
+        train, valid, b2, b3 = values.iloc[0], values.iloc[1], values.iloc[2], values.iloc[6]
+        np.testing.assert_allclose(values.iloc[[3, 4, 5, 7, 8]],
+                                   [valid-train, b2-valid, b2-9.1, b3-b2, b3-9.1], atol=1e-9)
+        return len(predictions)
     folds = pd.read_csv(folder / "fold_metrics.csv")
     filename = "cv_comparison.csv" if name in ("capacity_penalty", "curve_models") else "model_comparison.csv"
     comparison = pd.read_csv(folder / filename)
@@ -109,7 +134,8 @@ def verify_protocol_split():
 
 def verify_report_links():
     for path in [ROOT / "README.md", ROOT / "outputs/final/DAY1_REPORT.md",
-                 BASE / "DAY2_REPORT.md", BASE / "DAY2_PROTOCOL_VALIDATION.md"]:
+                 BASE / "DAY2_REPORT.md", BASE / "DAY2_PROTOCOL_VALIDATION.md",
+                 BASE / "DAY2_BATCH3_TEST.md"]:
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http://", "https://", "#")):
                 continue
@@ -121,7 +147,8 @@ def main():
     total = 0
     for name in EXPERIMENTS:
         total += verify_experiment(name)
-        print(f"PASS: {name} — saved prediction metrics and CV means")
+        checks = "saved prediction metrics and frozen test inputs" if name == "batch3_test" else "saved prediction metrics and CV means"
+        print(f"PASS: {name} — {checks}")
     verify_protocol_split()
     verify_report_links()
     print(f"PASS: {total} prediction rows; protocol split, frozen models, gaps and links")

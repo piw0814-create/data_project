@@ -59,9 +59,12 @@ def main():
                     base / "protocol_validation/performance_reporting.csv",
                     base / "protocol_validation/split_manifest.csv",
                     base / "protocol_validation/evaluation_predictions.csv"]
+    batch3_completed = (base / "batch3_test/results.json").is_file()
+    if batch3_completed:
+        source_paths += [base / "batch3_test/results.json", base / "batch3_test/evaluation_metrics.csv"]
     (out / "provenance.json").write_text(json.dumps(dict(
         purpose="Saved-results synthesis only", model_fit=False, evaluation_repeated=False,
-        prior_model_selection_changed=False, batch3_evaluated=False,
+        prior_model_selection_changed=False, batch3_evaluated=batch3_completed,
         sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths}),
         ensure_ascii=False,indent=2))
     print(summary.round(3).to_string(index=False))
@@ -475,6 +478,37 @@ C1은 첫 단계 충전 전류, 전환 SOC는 두 번째 전류로 바꾸는 충
 
 `src/day2_process_review.py`는 저장된 결과를 읽어 이 문서와 그림만 생성한다. 이번 정리는 새 모델 학습·후보 선택·평가를 수행하지 않았다. 입력 특징, 분할표, 모델, 예측, 설정·환경 기록은 각 실험 폴더에 보존했다.
 """
+    if (base / "batch3_test/results.json").is_file():
+        scores = pd.read_csv(base / "batch3_test/evaluation_metrics.csv")
+        primary = scores.loc[scores.candidate.eq("S3_elasticnet_0.001_0.5")
+                             & scores.evaluation.eq("Test (Batch 3)")].iloc[0]
+        baseline = scores.loc[scores.candidate.eq("S0_linear")
+                              & scores.evaluation.eq("Test (Batch 3)")].iloc[0]
+        report = report.replace("| Batch3 | 46 | EDA 44 | 수명 결측 2셀 제외; 선택 사항인 모델 추가 평가는 미실행 |",
+                                "| Batch3 | 46 | 추가 평가 44 | 수명 결측 2셀 제외; 기존 고정 모델 2개로 평가 |")
+        report = report.replace("Batch3 모델 평가는 선택 사항으로 수행하지 않았다.",
+                                "Batch3 추가 평가도 수행했으며 결과는 아래 §8에 정리했다.")
+        report = report.replace("## 8. 결론과 평가 한계", "## 9. 결론과 평가 한계")
+        report = report.replace("## 9. 재현 및 근거 파일", "## 10. 재현 및 근거 파일")
+        extra = f"""## 8. Batch3 추가 평가
+
+현재 프로토콜 CV 선택 ElasticNet과 같은 개발 29셀로 학습한 분산 기준 모델을 **재학습 없이** 평가했다. Batch3 원본 46셀 중 수명 결측 2셀을 제외한 44셀을 사용했다. 원본 초기 특징과 저장 입력의 일치, 동일 전압 격자, 초기 100사이클 이내 입력을 확인했고, 큰 예측 오차를 이유로 셀을 삭제하지 않았다.
+
+| 같은 학습 29셀 모델 | Batch2 MAPE (%) | Batch3 MAPE (%) | Batch2 MAE | Batch3 MAE |
+| --- | ---: | ---: | ---: | ---: |
+| CV 선택 ElasticNet | 37.14 | {primary.mape_pct:.2f} | 197.70 | {primary.mae:.2f} |
+| 분산 1개 선형회귀 | 28.68 | {baseline.mape_pct:.2f} | 142.76 | {baseline.mae:.2f} |
+
+![Batch3 실제 수명과 고정 모델 예측](batch3_test/predictions.png)
+
+**Batch3에서도 분산 기준 모델의 전체 MAPE가 낮았다.** 다만 ElasticNet은 학습 수명 범위 안의 27셀에서는 7.57%로 분산 모델의 8.71%보다 좋았고, 학습 최대 수명 1,054사이클을 넘는 17셀에서는 27.06%로 분산 모델의 17.46%보다 나빴다. 이 17셀을 ElasticNet이 전부 과소예측했으며 평균 약 395사이클 부족했다. 추가 특징의 내부 검증 이점이 장수명 외삽으로 이어지지 않았다.
+
+Batch3의 MAPE는 Batch2보다 낮지만 사이클 단위 MAE는 거의 비슷하거나 조금 커졌고, RMSE는 두 모델 모두 증가했다. 더 긴 실제 수명은 같은 사이클 오차의 상대오차를 작게 만들 수 있으므로 MAPE 개선만으로 모든 예측이 좋아졌다고 해석하지 않는다.
+
+이번 실행이 Batch3의 첫 모델 평가지만, Batch3는 이미 EDA에 사용했다. 완전히 보지 않은 데이터라고 주장하지 않고, 추가 점수로 모델을 재선정·튜닝하지 않았다. Batch3 전체 지정 성능표·품질 점검·비교 그래프는 [Batch3 추가 테스트 보고서](DAY2_BATCH3_TEST.md)에 있다.
+
+"""
+        report = report.replace("## 9. 결론과 평가 한계", extra + "## 9. 결론과 평가 한계")
     (base / "DAY2_REPORT.md").write_text(report, encoding="utf-8")
 
 

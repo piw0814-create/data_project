@@ -1,0 +1,10 @@
+구분,비교,MAPE (%),비고
+Train (Batch 1 CV),,5.682635876395006,기존 프로토콜 CV 평균; 재학습하지 않음
+Valid (Batch 1 Hold-out),,8.923434032740037,기존 7셀·4프로토콜
+Test (Batch 2),,37.13847863953277,기존 39셀 평가; 재계산하지 않음
+,Gap (Train-Valid),3.240798156345031,Valid − CV; %p
+,Gap (Valid-Test),28.215044606792734,Batch2 − Valid; %p
+,Gap (Target-Test),28.03847863953277,Batch2 − 참고값 9.1; %p
+Test (Batch 3),,15.099235456015451,44셀; 같은 고정 모델의 추가 평가
+,Gap (Batch2-Batch3),-22.03924318351732,Batch3 − Batch2; (+)이면 Batch3 오차 증가; %p
+,Gap (Target-Test),5.999235456015452,Batch3 − 과제 공통 참고값 9.1; 논문의 Batch3 목표치 아님

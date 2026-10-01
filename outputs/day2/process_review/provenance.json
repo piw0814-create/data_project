@@ -3,7 +3,7 @@
   "model_fit": false,
   "evaluation_repeated": false,
   "prior_model_selection_changed": false,
-  "batch3_evaluated": false,
+  "batch3_evaluated": true,
   "sources": {
     "outputs/day2/feature_experiments/stage_comparison.csv": "b778f703fb4b49d5ce5c0d77183bf1709b2fdf7d376536d76d7fa7c7b2906807",
     "outputs/day2/capacity_penalty/comparison.csv": "cea610f6b103fad4a0fcb9a0c97aeb0665dd0e70c4910d5c133135dda9e6d87e",
@@ -18,6 +18,8 @@
     "outputs/day2/protocol_validation/stage_comparison.csv": "435f0cb7817a905149cc3b2ee58df398b77b09b33af7b6ad036c8ec4ad3d0aad",
     "outputs/day2/protocol_validation/performance_reporting.csv": "c731aa52dd4971290578f27191cd8ad0c6a11cb05c6e15504a8465ca4056c363",
     "outputs/day2/protocol_validation/split_manifest.csv": "9f5323760378e598f493889011053224047060675b13135c89f7e926cc38e894",
-    "outputs/day2/protocol_validation/evaluation_predictions.csv": "2978a7419029818c7f5dbec0ba5f9c2a4e98150fc57684b9122534fceb137053"
+    "outputs/day2/protocol_validation/evaluation_predictions.csv": "2978a7419029818c7f5dbec0ba5f9c2a4e98150fc57684b9122534fceb137053",
+    "outputs/day2/batch3_test/results.json": "c0b29fb6d0f620b290bd30d6748b8cea261a61376012b4d7098cecf63b8afe3d",
+    "outputs/day2/batch3_test/evaluation_metrics.csv": "83e95343b5ff2ebbeddec83c69d37efd6072bef115132891fbb5665282f1dc33"
   }
 }
