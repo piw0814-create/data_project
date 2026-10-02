@@ -56,7 +56,14 @@ Batch3 44셀 ── 추가 외부 평가
 │   ├── 45-*.ipynb                 # 프로토콜 분리 검증
 │   ├── 46-*.ipynb                 # Batch3 평가
 │   └── 47-*.ipynb                 # 비즈니스 부록
-├── src/                           # 특징 추출·학습·평가·검산
+├── src/                             # 특징 추출·학습·평가·검산
+│   ├── day2_features.py             # 초기 100사이클 특징 추출
+│   ├── day2_modeling.py             # 모델 학습 및 비교
+│   ├── day2_evaluation.py           # 성능 평가 및 리포팅
+│   ├── day2_protocol_validation.py  # 충전 프로토콜 분리 검증
+│   ├── run_day2.py                  # 초기 특징 추출·기준 모델 CV·Hold-out 검증
+│   ├── verify_results.py            # 저장 결과·분할·수치 검산
+│   └── day2_*.py                    # 추가 실험 / ablation / Batch3 분석
 ├── outputs/
 │   ├── final/                     # DAY1 보고서·그림
 │   └── day2/                      # DAY2 보고서·모델·예측·성능표
