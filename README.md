@@ -84,13 +84,13 @@ python3.11 -m venv .venv
 
 ## EDA
 
-| 질문 | 핵심 발견 | 모델링 반영 |
-| --- | --- | --- |
-| Cycle Life 분포 | 500 미만 비율: Batch1 0%, Batch2 71.79%, Batch3 0%. 1,000 초과: 21.74%, 7.69%, 52.27% | 단수명·장수명 구간 오차를 따로 확인 |
-| 열화 곡선·knee | 후기에 감소가 가속되는 셀이 많고 시작 시점은 셀마다 다름 (knee는 육안 탐색) | 초기 추세만 후보로 사용. 전체 수명을 본 뒤 아는 knee는 입력에서 제외 |
-| ΔQ(V) | 대표 단수명 셀에서 100−10사이클 곡선 변화가 큼. 로그 분산–수명 상관 −0.886 / −0.902 / −0.702 | 로그 ΔQ 분산을 기준 특징으로 사용 |
-| 충전 조건 | C1 단독으로 수명 순서를 설명하기 어려움. 전환 SOC·C2·실험 집단에 따라 차이 | 충전 조합을 후보 특징과 검증 그룹으로 고려 |
-| 상관·데이터 품질 | ΔQ 평균·최솟값·분산의 정보 중복, 충전시간 극단값, IR=0 | 대표 특징부터 시작, 시간은 중앙값, IR=0은 결측 처리 |
+| 질문             | 핵심 발견                                                                                    | 모델링 반영                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Cycle Life 분포  | 500 미만 비율: Batch1 0%, Batch2 71.79%, Batch3 0%. 1,000 초과: 21.74%, 7.69%, 52.27%        | 단수명·장수명 구간 오차를 따로 확인                                  |
+| 열화 곡선·knee   | 후기에 감소가 가속되는 셀이 많고 시작 시점은 셀마다 다름 (knee는 육안 탐색)                  | 초기 추세만 후보로 사용. 전체 수명을 본 뒤 아는 knee는 입력에서 제외 |
+| ΔQ(V)            | 대표 단수명 셀에서 100−10사이클 곡선 변화가 큼. 로그 분산–수명 상관 −0.886 / −0.902 / −0.702 | 로그 ΔQ 분산을 기준 특징으로 사용                                    |
+| 충전 조건        | C1 단독으로 수명 순서를 설명하기 어려움. 전환 SOC·C2·실험 집단에 따라 차이                   | 충전 조합을 후보 특징과 검증 그룹으로 고려                           |
+| 상관·데이터 품질 | ΔQ 평균·최솟값·분산의 정보 중복, 충전시간 극단값, IR=0                                       | 대표 특징부터 시작, 시간은 중앙값, IR=0은 결측 처리                  |
 
 **추가 확인:** Batch2 일부 셀의 `newstructure` 표시(Batch1에는 없음), 학습 범위 밖의 초기 용량, 충전 프로토콜 분리 재검증.
 
@@ -138,10 +138,10 @@ python3.11 -m venv .venv
 
 ### 모델 비교 (같은 Batch1 개발 29셀·Hold-out 7셀, MAPE)
 
-| 모델 | 입력 수 | Batch1 CV | Hold-out | Batch2 | Batch3 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 분산 1개 선형회귀 | 1 | 7.93% | 10.73% | **28.68%** | **12.09%** |
-| 로그 ElasticNet | 5 | **5.68%** | **8.92%** | 37.14% | 15.10% |
+| 모델              | 입력 수 | Batch1 CV |  Hold-out |     Batch2 |     Batch3 |
+| ----------------- | ------: | --------: | --------: | ---------: | ---------: |
+| 분산 1개 선형회귀 |       1 |     7.93% |    10.73% | **28.68%** | **12.09%** |
+| 로그 ElasticNet   |       5 | **5.68%** | **8.92%** |     37.14% |     15.10% |
 
 ![같은 학습 셀에서의 모델 성능과 Batch2 예측 비교](outputs/day2/process_review/protocol_evaluation.png)
 
@@ -156,21 +156,21 @@ Batch2 / Batch3: 단순 선형회귀의 오차가 더 낮음
 내부 검증 개선 ≠ 배치 간 예측 개선
 ```
 
-### 교수님 지정 형식 (최종 추천 모델)
+### 최종 추천 모델
 
 Train은 재예측 오차가 아니라 **CV 검증 평균**이다.
 
-| 구분 | MAPE (%) | 비고 |
-| --- | ---: | --- |
-| Train (Batch 1 CV) | 7.93 | 개발 29셀, 프로토콜 단위 5-fold |
-| Valid (Batch 1 Hold-out) | 10.73 | 별도 7셀 |
-| Test (Batch 2) | 28.68 | 39셀; 추천에 참고한 기존 평가 |
-| Gap (Train-Valid) | +2.80 | Valid − CV, %p |
-| Gap (Valid-Test) | +17.96 | Test − Valid, %p |
-| Gap (Target-Test) | +19.58 | Test − 논문 참고값 9.1%, %p |
-| Test (Batch 3) | 12.09 | 44셀; 추천에 참고한 기존 평가 |
-| Gap (Batch2-Batch3) | −16.60 | Batch3 − Batch2, %p |
-| Gap (Target-Test, Batch3) | +2.99 | Batch3 − 과제 공통 참고값 9.1%, %p |
+| 구분                      | MAPE (%) | 비고                               |
+| ------------------------- | -------: | ---------------------------------- |
+| Train (Batch 1 CV)        |     7.93 | 개발 29셀, 프로토콜 단위 5-fold    |
+| Valid (Batch 1 Hold-out)  |    10.73 | 별도 7셀                           |
+| Test (Batch 2)            |    28.68 | 39셀; 추천에 참고한 기존 평가      |
+| Gap (Train-Valid)         |    +2.80 | Valid − CV, %p                     |
+| Gap (Valid-Test)          |   +17.96 | Test − Valid, %p                   |
+| Gap (Target-Test)         |   +19.58 | Test − 논문 참고값 9.1%, %p        |
+| Test (Batch 3)            |    12.09 | 44셀; 추천에 참고한 기존 평가      |
+| Gap (Batch2-Batch3)       |   −16.60 | Batch3 − Batch2, %p                |
+| Gap (Target-Test, Batch3) |    +2.99 | Batch3 − 과제 공통 참고값 9.1%, %p |
 
 Train→Valid(+2.80%p)보다 Valid→Batch2(+17.96%p) 차이가 훨씬 크다. 단순 모델에서도 배치 차이의 영향이 남았다. 단, Hold-out이 7셀뿐이라 과적합 여부를 단정하지 않는다.
 
@@ -211,7 +211,7 @@ Train→Valid(+2.80%p)보다 Valid→Batch2(+17.96%p) 차이가 훨씬 크다. �
 
 ## 참고문헌
 
-- [Severson et al. (2019)](https://www.nature.com/articles/s41560-019-0356-8). Data-driven prediction of battery cycle life before capacity degradation. *Nature Energy*, 4, 383–391.
+- [Severson et al. (2019)](https://www.nature.com/articles/s41560-019-0356-8). Data-driven prediction of battery cycle life before capacity degradation. _Nature Energy_, 4, 383–391.
 - [원논문 공식 코드](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation)
 - [Attia, Severson & Witmer (2021)](https://arxiv.org/abs/2101.01885)
 
