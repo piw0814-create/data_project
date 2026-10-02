@@ -222,6 +222,38 @@ def verify_business_appendix():
     return len(predictions)
 
 
+def verify_final_recommendation():
+    """Audit the post-evaluation recommendation without changing historical selection."""
+    folder = BASE / "final_recommendation"
+    record = json.loads((folder / "recommendation.json").read_text())
+    require(record["candidate"] == "S0_linear" and record["selection_uses_external_results"]
+            and not record["independent_final_test"] and not record["refit"],
+            "Final recommendation context differs")
+    require(record["features"] == ["log10_delta_Q_var"]
+            and record["target"] == "raw_cycle_life"
+            and record["n_development"] == 29 and record["n_holdout"] == 7,
+            "Final recommendation specification differs")
+    model = ROOT / record["model_path"]
+    require(hashlib.sha256(model.read_bytes()).hexdigest() == record["model_sha256"],
+            "Recommended model changed")
+    for name, expected in record["source_sha256"].items():
+        require(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected,
+                f"Recommendation evidence changed: {name}")
+    historical = json.loads((BASE / "protocol_validation/selection.json").read_text())
+    require(historical["primary"] == record["historical_cv_winner"]
+            and historical["model_hashes"][record["candidate"]] == record["model_sha256"],
+            "Historical selection or frozen model differs")
+    row = pd.read_csv(BASE / "protocol_validation/summary.csv").set_index("candidate").loc[record["candidate"]]
+    cv, valid, test = row.cv_mape_pct, row["Valid (Batch 1 Hold-out)"], row["Test (Batch 2)"]
+    metrics = pd.read_csv(BASE / "batch3_test/evaluation_metrics.csv")
+    batch3 = metrics.loc[metrics.candidate.eq(record["candidate"])
+                        & metrics.evaluation.eq("Test (Batch 3)"), "mape_pct"].item()
+    expected = [cv, valid, test, valid-cv, test-valid, test-9.1,
+                batch3, batch3-test, batch3-9.1]
+    saved = pd.read_csv(folder / "performance_reporting.csv")
+    np.testing.assert_allclose(saved["MAPE (%)"], expected, atol=1e-9)
+
+
 def main():
     total = 0
     for name in EXPERIMENTS:
@@ -231,6 +263,8 @@ def main():
     verify_protocol_split()
     appendix_rows = verify_business_appendix()
     verify_report_links()
+    verify_final_recommendation()
+    print("PASS: final recommendation — existing S0 model, historical CV winner and all reporting gaps")
     print(f"PASS: business appendix — {appendix_rows} saved predictions, source selections and model hashes")
     print(f"PASS: {total} prediction rows; protocol split, frozen models, gaps and links")
     print("No training, raw-data access, model unpickling or file writes.")

@@ -1,0 +1,10 @@
+구분,MAPE (%),비고
+Train (Batch 1 CV),7.929283961859085,"개발 29셀, 프로토콜 단위 5-fold"
+Valid (Batch 1 Hold-out),10.728067954796094,별도 7셀
+Test (Batch 2),28.684865198371092,39셀; 최종 추천에 참고한 기존 평가
+Gap (Train-Valid),2.7987839929370093,Valid − CV; %p
+Gap (Valid-Test),17.956797243574997,Test − Valid; %p
+Gap (Target-Test),19.58486519837109,Test − 논문 참고값 9.1%; %p
+Test (Batch 3),12.087278512022346,44셀; 최종 추천에 참고한 기존 평가
+Gap (Batch2-Batch3),-16.59758668634875,Batch3 − Batch2; %p
+"Gap (Target-Test, Batch3)",2.987278512022346,Batch3 − 과제 공통 참고값 9.1%; %p

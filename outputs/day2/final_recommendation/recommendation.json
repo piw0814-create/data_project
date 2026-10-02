@@ -1,0 +1,24 @@
+{
+  "candidate": "S0_linear",
+  "role": "final_recommendation_after_external_evaluation",
+  "features": [
+    "log10_delta_Q_var"
+  ],
+  "target": "raw_cycle_life",
+  "training_batch": "Batch1",
+  "n_development": 29,
+  "n_holdout": 7,
+  "split": "protocol_disjoint",
+  "model_path": "outputs/day2/protocol_validation/S0_linear.joblib",
+  "model_sha256": "034ab393a08ede29d8165f4e04cc2750a2f8d93bcad040ac2207b9bc26b6db99",
+  "historical_cv_winner": "S3_elasticnet_0.001_0.5",
+  "reason": "단순성과 동일 학습 셀의 Batch2·3 관측 성능을 종합한 최종 추천",
+  "selection_uses_external_results": true,
+  "independent_final_test": false,
+  "refit": false,
+  "source_sha256": {
+    "outputs/day2/protocol_validation/summary.csv": "ad1b3f72190ed50af6fd908318b4b20ca83efabb04d22c965129f867ba4393c1",
+    "outputs/day2/protocol_validation/selection.json": "a1a5d12511db91819bfeb46a3f7c1766269d985c2c1a34b4d17547ab97df3949",
+    "outputs/day2/batch3_test/evaluation_metrics.csv": "83e95343b5ff2ebbeddec83c69d37efd6072bef115132891fbb5665282f1dc33"
+  }
+}
