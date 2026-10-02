@@ -1,106 +1,122 @@
-# 배터리 수명 예측 — DAY1·DAY2
+# ESS 배터리 수명 예측
 
-초기 100사이클의 측정값으로 셀의 총 수명 `cycle_life`를 예측하는 회귀 과제다. Batch1으로 학습하고 Batch2에서 평가했다. Batch3에서도 사전에 고정한 두 모델의 추가 평가를 수행했다.
+**초기 100사이클의 측정값으로 배터리 셀의 총 수명을 예측**하고, 다른 실험 배치에서도 예측이 유지되는지 평가했다. ESS의 조기 품질 선별과 교체 계획에 활용할 수 있는 신호를 탐색하는 것이 목적이다.
 
-GitHub에서는 아래 보고서 링크부터 읽으면 된다. 그래프·평가표·실행 결과를 저장해 두었으므로 **내용 확인에는 원본 데이터나 설치가 필요 없다.**
+[DAY1: EDA·모델 전략](outputs/final/DAY1_REPORT.md) · [DAY2: 개발·평가](outputs/day2/DAY2_REPORT.md) · [Batch3 추가 평가](outputs/day2/DAY2_BATCH3_TEST.md) · [실행 안내·과제 기준 점검](docs/PROJECT_GUIDE.md)
 
-## 읽는 순서
+## 프로젝트 개요
 
-1. [DAY1 — EDA와 모델 설계](outputs/final/DAY1_REPORT.md): 다섯 질문에 대한 그래프·해석·모델링 시사점.
-2. [DAY2 — 모델 개발 및 평가](outputs/day2/DAY2_REPORT.md): 도메인 가설, 특징 개발, 결과 비교, 프로토콜 분리 검증, 지정 성능표와 결론.
-3. [DAY2 — Batch3 추가 테스트](outputs/day2/DAY2_BATCH3_TEST.md): 고정 모델의 추가 성능표, 장수명 오차와 배치 간 비교.
-4. [DAY2 부록 — 프로토콜 분리 상세 결과](outputs/day2/DAY2_PROTOCOL_VALIDATION.md): 후보·설정·집단별 오차 확인용.
+- **데이터:** MIT–Stanford Battery Dataset 계열의 수업 제공 파일 (Severson et al., 2019).
+- **학습:** Batch1 (2017-05-12). 원본 46셀 중 레이블 점검 후 36셀 사용.
+- **평가:** Batch2 (2018-02-20) 39셀, 추가 Batch3 (2018-04-12) 44셀. 수명 결측 셀 제외.
+- **태스크:** Regression. 정답은 제공된 총 수명 `cycle_life`; 주 지표는 MAPE(%), 보조 지표는 MAE·RMSE·R².
+- **최종 검증 구조:** Batch1 개발 29셀에서 프로토콜 단위 5-fold CV → 별도 Hold-out 7셀 → 고정 모델로 Batch2·3 평가. 같은 C1·전환 SOC·C2 조합을 학습/검증 양쪽에 나누지 않았다.
 
-**주요 결과:** 기존 셀 분리에서 관측된 Batch2 최저 MAPE는 분산 1개 선형회귀의 **26.19%**다. 해당 개발 과정의 CV 선택 모델은 MAPE 가중 회귀로 Batch2 **33.88%**였다. 프로토콜 분리 추가 검증에서는 CV 선택 ElasticNet이 **37.14%**, 같은 학습 셀의 분산 기준 모델이 **28.68%**였다. 프로토콜 분리로 성능이 개선됐다고 해석하지 않는다. 같은 프로토콜 분리 모델을 Batch3 44셀에 적용했을 때 ElasticNet은 **15.10%**, 분산 기준 모델은 **12.09%**였다. MAPE는 낮아졌지만 사이클 단위 오차는 비슷하거나 커졌고, 장수명 과소예측이 남았다. 이후 같은 Batch3 44셀에 기존 28셀 모델(Batch2 26.19%)도 적용했으며 MAPE는 **11.94%**였다.
+## 파일 구조
 
-Batch2를 후속 개발에서 반복 확인했으므로 새 독립 테스트라고 주장하지 않는다. 9.1%는 과제의 논문 참고값이며 데이터·분할 조건이 달라 동일 조건 재현이 아니다.
+```text
+├── data/README.md                 # 원본 MAT 배치 안내
+├── notebooks/
+│   ├── 30-ESSHealth-DAY1-EDA.ipynb
+│   ├── 40~44-*.ipynb             # 기준 모델·특징·규제·곡선 실험
+│   ├── 45-*.ipynb                # 프로토콜 분리 최종 검증
+│   ├── 46-*.ipynb                # Batch3 평가
+│   └── 47-*.ipynb                # 비즈니스 부록: 저장 결과 분석
+├── src/                          # 특징 추출·학습·평가·검산
+├── outputs/
+│   ├── final/                    # DAY1 보고서·그림
+│   └── day2/                     # DAY2 보고서·실험별 모델·예측·성능표
+├── docs/PROJECT_GUIDE.md          # 실행 순서·평가 기준 점검
+├── requirements.txt
+└── README.md
+```
 
-## 과제 요구사항과 위치
+## 환경 설정
 
-| 요구사항 | 확인 위치 |
-| --- | --- |
-| 세 배치 수명 분포·장단수명 비율·짧은 셀 비교 | DAY1 §2 |
-| 열화 곡선·가속·knee 탐색 | DAY1 §3 — knee는 육안 탐색 |
-| ΔQ100−10 비교·통계 특징 추출 | DAY1 §4 |
-| 충전 조건·수명·열화 속도의 관계 | DAY1 §5 — C1·SOC·C2 기반, 실제 전류 파형 분석은 미실행 |
-| 상관관계·다중공선성 | DAY1 §6 |
-| Feature Engineering·회귀 선택·모델 전략 | DAY1 §7–9, DAY2 §2·4 |
-| Batch1 학습·CV·Hold-out, Batch2 평가 | DAY2 §3–6 |
-| MAPE·세 가지 Gap·논문 기준 비교 | DAY2 §6 — 두 분리 방식 모두 지정 형식으로 보고 |
-| 도메인 근거·결과 분석·한계 | DAY2 §2·4·7·8·9 |
-| Batch3 추가 성능·Gap·배치 간 일반화 | DAY2 §8, Batch3 추가 테스트 보고서 |
-| 재현성·전처리 누수 방지 | DAY2 §3, 각 실험의 설정·분할·환경 기록 |
-
-## 실행 파일
-
-| 순서 | 노트북 | 내용 |
-| --- | --- | --- |
-| 1 | [30 — DAY1 EDA](notebooks/30-ESSHealth-DAY1-EDA.ipynb) | Batch1 단독 탐색에서 세 배치 비교까지 |
-| 2 | [40 — 기준 모델](notebooks/40-ESSHealth-DAY2.ipynb) | 기존 셀 분리, CV, Hold-out, Batch2 평가 |
-| 3 | [41 — 특징 추가](notebooks/41-ESSHealth-DAY2-feature-experiments.ipynb) | 누적 특징·모델 설정 비교 |
-| 4 | [42 — 특징 제거·손실](notebooks/42-ESSHealth-DAY2-ablation-loss.ipynb) | 중복 특징과 MAPE 가중 학습 |
-| 5 | [43 — 규제](notebooks/43-ESSHealth-DAY2-capacity-penalty.ipynb) | 초기 용량 의존 억제 |
-| 6 | [44 — 곡선 표현](notebooks/44-ESSHealth-DAY2-curve-models.ipynb) | 로그 IQR·PLS 비교 |
-| 7 | [45 — 프로토콜 검증](notebooks/45-ESSHealth-DAY2-protocol-validation.ipynb) | 충전 조합을 분리한 재검증 |
-| 8 | [46 — Batch3 추가 테스트](notebooks/46-ESSHealth-DAY2-batch3-test.ipynb) | 현재 고정 모델과 분산 기준 모델의 추가 평가 |
-
-노트북에는 실행 결과가 남아 있다. 모델 구현은 `src/`, 근거 데이터와 모델은 `outputs/day2/`에 있다. 기존 셀 분리 후속 실험은 `feature_experiments/split_manifest.csv`를 공유한다. 프로토콜 실험은 별도 분할표를 사용한다. `label_audit.csv`는 셀 제외 기준을 담은 필수 입력이다.
-
-## 환경과 데이터 준비
-
-Python **3.11.15**. 라이브러리 버전은 `requirements.txt`에 고정했다. 아래 명령은 저장소를 복제하거나 압축을 푼 프로젝트 루트에서 실행한다. macOS·Linux 기준이다.
+Python **3.11.15**, 라이브러리 버전은 `requirements.txt`에 고정했다. 아래는 macOS·Linux 기준이다.
 
 ```bash
+git clone https://github.com/piw0814-create/data_project.git
+cd data_project
 python3.11 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -m ipykernel install --user --name data-project --display-name "Python (data-project)"
 .venv/bin/python -m jupyterlab
 ```
 
-학습·원본 EDA를 실행하려면 제공받은 다음 파일을 `data/`에 둔다. 대용량 원본은 GitHub와 제출 압축에 포함하지 않았다. 파일 배치 안내는 [data/README.md](data/README.md)에 있다.
+보고서·노트북에는 그래프와 실행 결과가 저장되어 있어 **열람에는 설치가 필요 없다.** 원본 EDA·특징 추출에는 [안내된 MAT 파일](data/README.md)이 필요하다. 저장 결과의 수치·분할·모델 무결성은 `.venv/bin/python -m src.verify_results`로 확인한다. 전체 실행 순서는 [실행 안내](docs/PROJECT_GUIDE.md)를 따른다.
 
-- `2017-05-12_batchdata_updated_struct_errorcorrect.mat` — Batch1
-- `2018-02-20_batchdata_updated_struct_errorcorrect.mat` — Batch2
-- `2018-04-12_batchdata_updated_struct_errorcorrect.mat` — Batch3
+## EDA: 발견과 모델링 시사점
 
-설치 후 저장된 예측값·평가표·분할·모델 해시를 검사하려면 다음을 실행한다. 재학습하거나 파일을 수정하지 않는다.
+| 질문 | 핵심 발견 | 모델 설계에 반영한 점 |
+| --- | --- | --- |
+| 수명 분포 | 500사이클 미만 비율: Batch1 0%, Batch2 71.79%, Batch3 0%. 1,000 초과 비율: 21.74%, 7.69%, 52.27% | 짧은 수명·긴 수명 구간의 오차를 따로 확인 |
+| 열화 곡선·knee | 후기에 감소가 가속되는 셀이 많고, 급격한 감소 시작 시점은 셀마다 다름 | 초기 추세를 후보로 사용. 전체 수명을 본 뒤 알 수 있는 knee는 입력에서 제외 |
+| ΔQ(V) | 대표 단수명 셀에서 100−10사이클 곡선 변화가 큼. 로그 분산과 수명의 상관은 배치별 −0.886, −0.902, −0.702 | 로그 ΔQ 분산 하나로 기준 모델 구성 |
+| 충전 조건 | C1 단독으로 수명 순서를 설명하기 어려움. 전환 SOC·C2·실험 집단에 따라 차이가 남음 | 충전 조합을 후보 특징과 검증 그룹으로 고려 |
+| 상관·데이터 품질 | ΔQ 평균·최솟값·분산의 정보 중복, 충전시간 극단값, IR=0 확인 | 대표 특징부터 시작해 추가·제거 비교. 시간은 중앙값, IR=0은 결측 처리 |
 
-```bash
-.venv/bin/python -m src.verify_results
-```
+분포 통계는 DAY1의 수명값이 있는 셀 기준이다. DAY2에서는 Batch1의 후속 기록 연결 필요 5셀·실험 미완료 5셀을 추가 제외했다. 그래프와 해석은 [DAY1 보고서](outputs/final/DAY1_REPORT.md)에 함께 제시했다.
 
-저장 결과만으로 DAY2 문서와 그림을 재생성하려면 다음을 실행한다. 재학습하지 않으며 원본 MAT가 필요하지 않다.
+## Modeling
 
-```bash
-.venv/bin/python -m src.day2_process_review
-```
+### 피처 엔지니어링 전략
 
-실험은 위 노트북 순서로 확인한다. 노트북 40은 저장 결과가 있으면 특징 추출·학습·평가를 반복하지 않는다. 새 학습 시에는 노트북 40의 마지막 Batch2 평가까지 완료한 뒤 41로 넘어간다. `src.run_day2`만 실행하면 새 실험에서는 CV와 Hold-out까지만 수행하므로, 후속 실험 전체를 실행한 것과 다르다.
+공통 전압에서 `ΔQ(V) = Q100(V) − Q10(V)`를 계산했다. 로그 분산으로 시작해 최솟값, 초기 용량, 용량 변화율, 초기 감소 속도를 추가했다. **곡선의 변화와 초기 상태가 서로 보완적인 수명 정보를 줄 것**이라는 가설이었다. IR·온도·충전시간·C-rate도 추가 비교했으나 더 나은 최종 CV 후보를 만들지 못했다.
 
-Batch3 추가 테스트는 `.venv/bin/python -m src.day2_batch3`로 실행한다. 원본이 필요한 최초 평가에서는 고정 모델 2개만 사용하며, 완료 결과가 있으면 원본 접근·재학습·재평가 없이 결과를 읽는다. 기존 26.19% 모델의 추가 확인은 `src.day2_batch3_original`이며, 최초 두 모델 평가 후 요청에 따른 별도 기록이다.
+### 모델 선택 및 근거
 
-후속 구현은 `src.day2_experiments`, `src.day2_ablation`, `src.day2_capacity_penalty`, `src.day2_curve_models`, `src.day2_protocol_validation`에 있다. 완료된 결과를 재사용하고, 중단된 결과가 있으면 덮어쓰기 전에 확인하도록 한다. 새 실험은 별도 프로젝트 사본에서 해당 실험 결과 폴더를 비운 뒤 수행한다. `label_audit.csv`와 이전 단계의 입력·분할표는 유지한다. 기록된 코드 해시는 당시 학습 버전의 기록이며 이번 공유용 정리 이후 코드와 다를 수 있다.
+- **후보:** 평균 예측·선형회귀를 기준으로, 작은 표본과 중복 특징을 고려한 Ridge·ElasticNet을 비교했다. 이후 특징 제거, 규제 강화, MAPE 가중 학습, IQR·PLS 표현을 비교했다.
+- **최종 선택:** 로그 수명 ElasticNet (`alpha=0.001`, `l1_ratio=0.5`). Batch1 프로토콜 CV 평균 MAPE가 가장 낮았다.
+- **입력 5개:** 로그 ΔQ 분산, ΔQ 최솟값, 10~20사이클 용량 중앙값, 초기 대비 90~100사이클 용량 변화율, 10~100사이클 감소 속도. 최종 적합에서 분산·감소 속도의 계수는 0이 되어 실제로 3개가 기여했다.
+- **전처리:** CV 학습 폴드 안에서만 결측 대체·표준화를 학습했다. 예측을 사이클 단위로 되돌려 평가하며, 후기 정보는 사용하지 않았다.
 
-## 폴더 구성
+## 성능 결과
 
-| 폴더 | 내용 |
-| --- | --- |
-| `notebooks/` | 단계별 설명과 실행 결과를 포함한 8개 노트북 |
-| `src/` | 특징 추출, 학습·평가, 보고서 생성, 결과 검산 코드 |
-| `outputs/final/` | DAY1 보고서와 주요 그래프 |
-| `outputs/day2/` | DAY2 보고서, 실험별 설정·분할·예측·평가표·학습 모델 |
-| `data/` | 원본 MAT를 둘 위치와 안내; 원본은 별도 제공 |
+**최종 CV 선택 모델: 프로토콜 분리 ElasticNet.** MAPE는 낮을수록 좋다. Train은 학습 데이터 재예측 오차가 아니라 **CV 검증 평균**이다.
 
-개인 경로, 가상환경, 캐시, 강의 참고자료(`sources/`), 제출 ZIP은 GitHub 공유 대상에서 제외한다. 모델 파일은 이 저장소의 저장 결과 재현용이다.
+| 구분 | MAPE (%) | 비고 |
+| --- | ---: | --- |
+| Train (Batch 1 CV) | 5.68 | 개발 29셀, 프로토콜 단위 5-fold |
+| Valid (Batch 1 Hold-out) | 8.92 | 별도 7셀 |
+| Test (Batch 2) | 37.14 | 39셀 |
+| Gap (Train-Valid) | +3.24 | Valid − CV, %p |
+| Gap (Valid-Test) | +28.22 | Test − Valid, %p |
+| Gap (Target-Test) | +28.04 | Test − 논문 참고값 9.1%, %p |
+| Test (Batch 3) | 15.10 | 44셀, 같은 고정 모델 |
+| Gap (Batch2-Batch3) | −22.04 | Batch3 − Batch2, %p |
+| Gap (Target-Test, Batch3) | +6.00 | Batch3 − 과제 공통 참고값 9.1%, %p |
 
-## 제출 구성
+비교 기준도 함께 남겼다. **내부 검증 최저 모델이 다른 배치에서 가장 좋은 모델은 아니었다.**
 
-`submission.zip`에는 이 README, DAY1·DAY2 보고서와 그림, 노트북, 구현 코드, 환경 설정, 셀별 입력·분할·예측·모델·평가 기록이 포함된다. 압축 안의 `CONTENTS.sha256`은 포함 파일의 무결성 확인용 목록이다.
+| 모델 | 학습 셀 | Batch2 MAPE | Batch3 MAPE |
+| --- | ---: | ---: | ---: |
+| 최종 CV 선택 ElasticNet | 29 | 37.14% | 15.10% |
+| 같은 학습 셀의 분산 1개 선형회귀 | 29 | 28.68% | 12.09% |
+| 초기 셀 분리의 분산 1개 선형회귀 | 28 | 26.19% | 11.94% |
 
-원본 데이터, `.venv`, `.git`, `sources`, 캐시, 이전 DAY1 PDF는 제외했다. **제출 문서의 최신본은 Markdown 파일**이며 기존 PDF는 이번 개정 내용이 반영되지 않은 이전 파일이다. PDF로 내보낼 경우 최신 Markdown을 사용한다.
+![같은 학습 셀에서의 모델 성능과 Batch2 예측 비교](outputs/day2/process_review/protocol_evaluation.png)
 
-```bash
-.venv/bin/python -m src.package_submission
-```
+왼쪽은 내부 검증 개선이 Batch2 개선으로 이어지지 않은 결과다. 오른쪽에서 대각선 위 점은 실제보다 수명을 길게 예측한 셀이다.
 
-이 명령은 제출 파일만 묶으며, 모델이나 평가 결과를 변경하지 않는다.
+학습 셀이 다른 점수 차이를 분리 방식만의 효과로 해석하지 않는다. Batch3는 수명이 길어 상대오차가 작아지는 영향도 있다. 최종 모델의 MAE는 Batch2 **197.70**, Batch3 **194.63사이클**로 비슷했다.
+
+9.1%는 논문 참고값이며, 사용 파일·학습/테스트 구성이 달라 동일 조건 재현은 아니다. 또한 개발 중 Hold-out·Batch2 결과를 반복 확인했으므로 완전히 독립적인 최종 테스트라는 조건은 충족하지 못했다. 후속 실험은 [비즈니스 부록](outputs/day2/DAY2_BUSINESS_APPENDIX.md)에 분리했다.
+
+## 오류 분석
+
+최종 모델의 Batch2 상대오차 상위 3셀은 **6·29·18번**이다. 실제 수명은 각각 **393·452·449**, 예측은 **704·734·717사이클**로 모두 단수명 과대예측이었다. Batch2의 단수명 28셀 MAPE는 **38.92%**였다. Batch3에서는 학습 최대 수명 1,054를 넘는 17셀을 모두 과소예측했다.
+
+**Batch1에 단수명 사례가 없고 수명 범위가 좁은 점이 주요 원인으로 보인다.** 초기 용량·충전 조건의 배치 차이도 영향을 주었을 가능성이 있다. 특징을 더 늘리는 것보다, 단수명과 다양한 운전 조건의 사례를 학습에 보완하는 방향에서 개선을 기대할 수 있다.
+
+## ESS 도메인 해석
+
+- **활용:** 초기 시험 결과로 정밀 검사가 필요한 셀을 선별하고, 교체·보증 계획을 위한 참고 수명을 제공할 수 있다.
+- **오류 비용:** 단수명 과대예측은 교체 지연, 장수명 과소예측은 조기 폐기·활용 손실로 이어질 수 있다. 부록의 보수적 예측은 앞의 오류를 줄였지만 뒤의 오류를 키웠다.
+- **실제 적용:** 실험실 셀 데이터를 사용했으므로 ESS의 온도·SOC 범위·부하 변화·달력 노화·팩 내 편차를 반영한 추가 검증이 필요하다. 운영에서는 배치별 입력 분포와 실제 오차를 추적하고, 새 조건의 데이터가 쌓이면 재학습하는 방향이 적절하다.
+
+## 참고문헌
+
+- [Severson et al. (2019)](https://www.nature.com/articles/s41560-019-0356-8). Data-driven prediction of battery cycle life before capacity degradation. *Nature Energy*, 4, 383–391.
+- [원논문 공식 코드](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation): 데이터 처리·분할 비교.
+- [Attia, Severson & Witmer (2021)](https://arxiv.org/abs/2101.01885): 초기 곡선 특징·모델 표현 참고.

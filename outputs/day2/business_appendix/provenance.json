@@ -1,0 +1,238 @@
+{
+  "compiled_utc": "2026-10-02T00:39:02.105553+00:00",
+  "purpose": "Discarded follow-up experiments: saved evidence only, not submitted model selection.",
+  "source_sha256": {
+    "battery-batch-shift/plan.json": "42da33b55eee998c8acf4309fdb877bd04e80e4e53cb642dc9caca6889516ba3",
+    "battery-batch-shift/predictions.csv": "36a9aa5d10c618a9031a5e5b30bc134a315a5d50d6c34154683cec740416f0dd",
+    "battery-batch-shift/metrics.csv": "270392363c84ca04a5dc70ce0ee94b674f15a0534083da2e59d104eda1a60fa4",
+    "battery-final-exploration/plan.json": "765488e9a91275d7f4ea6afdf7587a472ecf30f51a6e1982bc65c1953da802bd",
+    "battery-final-exploration/evaluation_predictions.csv": "2f5edd26612f3469f99d6e412d691b7a9e59c15af9e9f2efda7d72d5265a586c",
+    "battery-final-exploration/evaluation_metrics.csv": "a748b5d8aec3a05944773f15903dc6f8312699ea9d2ca54b9d2dbeff4053343e",
+    "battery-shortlife-objectives/plan.json": "40fe67ee1828d627c7926ed1bd36ebdf47ca3eaead7a1c2bfa773e6223cd9cea",
+    "battery-shortlife-objectives/evaluation_predictions.csv": "f2c9e02a3658fe9ade69d6ef4493bbaf04a20a7443cbc63f7773c7fae55a0857",
+    "battery-shortlife-objectives/evaluation_metrics.csv": "d25bcb91f9131cce278387d36a64dcc5e707a93eda0b9a3656cac0af0a2d240a"
+  },
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "scipy": "1.17.1"
+  },
+  "feature_cutoff_cycle": 100,
+  "seed": 42,
+  "objective_selection": {
+    "protocol29": {
+      "normal": "q50",
+      "stress": "q30"
+    },
+    "historical28": {
+      "normal": "baseline",
+      "stress": "q30"
+    }
+  },
+  "primary_split": {
+    "development": 29,
+    "holdout": 7,
+    "unit": "numeric charging protocol"
+  },
+  "historical_split": {
+    "development": 28,
+    "holdout": 8,
+    "unit": "cell"
+  },
+  "batch2_cells": 39,
+  "batch3_cells": 44,
+  "all_tests_previously_seen": true,
+  "official_models_unchanged": true,
+  "discarded_experiment_retraining_supported": false,
+  "retained_evidence": "Metrics can be checked from predictions; discarded experiments are not part of the runnable main pipeline.",
+  "inverse_model": "Fit target 1000/y with rate=softplus(c+b*z), b>=0; predict y=1000/rate. z standardized log10 delta-Q variance. Three deterministic optimization starts, select training rate loss only; no clipping.",
+  "quantile_alpha": 0,
+  "quantile_solver": "highs",
+  "early_progress_feature": "log10(var((Q100-Q50)/50)) - log10(var((Q50-Q10)/40)); ddof=0",
+  "stress_splits": [
+    {
+      "split": "protocol29",
+      "scenario": 0.2,
+      "n_train": 23,
+      "n_valid": 6,
+      "train_min": 651.0,
+      "valid_max": 625.0,
+      "train_ids": [
+        "43",
+        "18",
+        "42",
+        "35",
+        "30",
+        "15",
+        "32",
+        "34",
+        "33",
+        "11",
+        "19",
+        "27",
+        "25",
+        "17",
+        "28",
+        "16",
+        "26",
+        "31",
+        "14",
+        "29",
+        "23",
+        "24",
+        "9"
+      ],
+      "valid_ids": [
+        "20",
+        "21",
+        "45",
+        "44",
+        "38",
+        "39"
+      ],
+      "protocol_overlap": 0
+    },
+    {
+      "split": "protocol29",
+      "scenario": 0.3,
+      "n_train": 19,
+      "n_valid": 9,
+      "train_min": 703.0,
+      "valid_max": 702.0,
+      "train_ids": [
+        "35",
+        "30",
+        "15",
+        "32",
+        "34",
+        "33",
+        "11",
+        "27",
+        "25",
+        "17",
+        "28",
+        "16",
+        "26",
+        "31",
+        "14",
+        "29",
+        "23",
+        "24",
+        "9"
+      ],
+      "valid_ids": [
+        "20",
+        "21",
+        "45",
+        "44",
+        "38",
+        "39",
+        "43",
+        "18",
+        "42"
+      ],
+      "protocol_overlap": 0
+    },
+    {
+      "split": "historical28",
+      "scenario": 0.2,
+      "n_train": 20,
+      "n_valid": 6,
+      "train_min": 651.0,
+      "valid_max": 648.0,
+      "train_ids": [
+        "43",
+        "18",
+        "42",
+        "15",
+        "32",
+        "34",
+        "33",
+        "11",
+        "19",
+        "25",
+        "17",
+        "28",
+        "16",
+        "31",
+        "14",
+        "29",
+        "23",
+        "24",
+        "41",
+        "5"
+      ],
+      "valid_ids": [
+        "20",
+        "21",
+        "38",
+        "39",
+        "6",
+        "37"
+      ],
+      "protocol_overlap": 0
+    },
+    {
+      "split": "historical28",
+      "scenario": 0.3,
+      "n_train": 16,
+      "n_valid": 9,
+      "train_min": 719.0,
+      "valid_max": 702.0,
+      "train_ids": [
+        "15",
+        "32",
+        "34",
+        "33",
+        "11",
+        "25",
+        "17",
+        "28",
+        "16",
+        "31",
+        "14",
+        "29",
+        "23",
+        "24",
+        "41",
+        "5"
+      ],
+      "valid_ids": [
+        "20",
+        "21",
+        "38",
+        "39",
+        "6",
+        "37",
+        "43",
+        "18",
+        "42"
+      ],
+      "protocol_overlap": 0
+    }
+  ],
+  "alignment_setting": "CORAL/robust/quantile/importance use unlabeled external early inputs; labels used only for evaluation. This differs from strict source-only preprocessing.",
+  "frozen_main_model_sha256": {
+    "outputs/day2/feature_experiments/selected_pipeline.joblib": "d8026f8d3e4f18b4fea3b5ac5c358abd314b0e8247df4daf71534060160010bd",
+    "outputs/day2/capacity_penalty/removed.joblib": "dafdd9b965737235c06968e08c49484a97573d171306f4ace81d2e1e751dd1c5",
+    "outputs/day2/capacity_penalty/penalty100.joblib": "3180ca68b56474797309a9e113ab48ac3b63f1f4265311631100b4a07421a538",
+    "outputs/day2/capacity_penalty/penalty10.joblib": "e80dec73e27d63ccdcec6f2415665a01e5860bbafa2a4ddbc12245d83bab8b49",
+    "outputs/day2/ablation_loss/mape_raw_full_a0.01.joblib": "af69946c503859534b2ccd54be6072efada28d8f107dd8df53d7b317bd4e87fe",
+    "outputs/day2/ablation_loss/mae_raw_minus_delta_Q_min_a0.01.joblib": "2df895e2a25f6b643bd908da09b0f7d7a2e055e65807dcd57c11b05199201567",
+    "outputs/day2/ablation_loss/ridge_minus_delta_Q_min.joblib": "af036c86fa04986df9f33e89bf4311686c1808d18768f753bc9b36d440d6fb93",
+    "outputs/day2/protocol_validation/S0_linear.joblib": "034ab393a08ede29d8165f4e04cc2750a2f8d93bcad040ac2207b9bc26b6db99",
+    "outputs/day2/protocol_validation/S3_elasticnet_0.001_0.5.joblib": "524b6fc3d0f9e49d51c29b7e2e3394ca901e1bc883a55a4d4377b8d04de3ca59",
+    "outputs/day2/protocol_validation/control_five_log_ridge.joblib": "487ee840e74b7f6e607e3585148cf7a878a51cf044e7650a4dd2baa75baaecbe",
+    "outputs/day2/protocol_validation/control_five_mape.joblib": "16cd9d83d4f484933e8f0d88eb38c3246d4c08316311dd2a9bb210f983bf2826",
+    "outputs/day2/modeling_cell_split/selected_pipeline.joblib": "b22313468a53156e8446f3466046495f43bd7a961cfd436ea841395294901b8b",
+    "outputs/day2/curve_models/pls_1.joblib": "9763b9c07c5ceb8952dc948ab0d429fe9baac0aae85cc9f1e0ab2765ab95ee40",
+    "outputs/day2/curve_models/linear_iqr.joblib": "7b68c9478e09bbcb245a00bca94adba2377d8f7307c8aeb4016181681c6ca75c"
+  },
+  "evidence_sha256": {
+    "metrics.csv": "2a1ac18da97c2ad25ab1f7c6d09d093691277b27e067f1d2d416fbbde5f1ceb3",
+    "predictions.csv": "273d4a32e90ac2cb70026f1f963370bfd1f3262a47d8395cc3f13b55ced02302",
+    "fold_metrics.csv": "f47b7782e6b37142682afaae803db0569e007fa76f5c3e4a70f2f5eb79d50c11"
+  }
+}

@@ -152,12 +152,74 @@ def verify_protocol_split():
 def verify_report_links():
     for path in [ROOT / "README.md", ROOT / "outputs/final/DAY1_REPORT.md",
                  BASE / "DAY2_REPORT.md", BASE / "DAY2_PROTOCOL_VALIDATION.md",
-                 BASE / "DAY2_BATCH3_TEST.md"]:
+                 BASE / "DAY2_BATCH3_TEST.md", BASE / "DAY2_BUSINESS_APPENDIX.md",
+                 ROOT / "docs/PROJECT_GUIDE.md", ROOT / "data/README.md"]:
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http://", "https://", "#")):
                 continue
             require((path.parent / target.split("#")[0]).exists(),
                     f"Broken link in {path.name}: {target}")
+
+
+def verify_business_appendix():
+    """Check retained evidence from discarded experiments without rerunning them."""
+    folder = BASE / "business_appendix"
+    provenance = json.loads((folder / "provenance.json").read_text())
+    for name, expected in provenance["evidence_sha256"].items():
+        require(hashlib.sha256((folder / name).read_bytes()).hexdigest() == expected,
+                f"Appendix evidence changed: {name}")
+    for name, expected in provenance["frozen_main_model_sha256"].items():
+        require(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected,
+                f"Main model changed after appendix: {name}")
+    predictions = pd.read_csv(folder / "predictions.csv", dtype={"cell_id": str})
+    keys = ["experiment", "split", "candidate", "evaluation"]
+    require(not predictions.duplicated(keys + ["cell_id"]).any(),
+            "Appendix has duplicate prediction cells")
+    require(np.isfinite(predictions[["cycle_life", "prediction"]]).all().all()
+            and predictions.cycle_life.gt(100).all(), "Invalid appendix targets/predictions")
+    np.testing.assert_allclose(predictions.ape_pct,
+                               100 * abs(predictions.prediction - predictions.cycle_life)
+                               / predictions.cycle_life, atol=1e-9)
+    rows = []
+    for key, group in predictions.groupby(keys):
+        masks = {"all": np.ones(len(group), dtype=bool),
+                 "short_lt500": group.cycle_life.lt(500).to_numpy(),
+                 "other_ge500": group.cycle_life.ge(500).to_numpy()}
+        for segment, mask in masks.items():
+            data = group.loc[mask]
+            if data.empty:
+                continue
+            delta = data.prediction - data.cycle_life
+            rows.append(dict(zip(keys, key), segment=segment, n=len(data),
+                             mape_pct=float(data.ape_pct.mean()), mae=float(abs(delta).mean()),
+                             rmse=float(np.sqrt(np.mean(delta**2))), bias_cycles=float(delta.mean()),
+                             mean_positive_overprediction=float(delta.clip(lower=0).mean()),
+                             overprediction_pct=float(100 * (delta > 0).mean())))
+    checked = pd.DataFrame(rows)
+    saved = pd.read_csv(folder / "metrics.csv")
+    joined = checked.merge(saved, on=keys + ["segment"], suffixes=("_check", "_saved"),
+                           validate="one_to_one")
+    require(len(joined) == len(checked) == len(saved), "Appendix metric rows differ")
+    for metric in ("n", "mape_pct", "mae", "rmse", "bias_cycles",
+                   "mean_positive_overprediction", "overprediction_pct"):
+        np.testing.assert_allclose(joined[metric + "_check"], joined[metric + "_saved"],
+                                   rtol=1e-9, atol=1e-9)
+    folds = pd.read_csv(folder / "fold_metrics.csv")
+    require(not folds.duplicated(["experiment", "split", "candidate", "regime", "fold"]).any()
+            and np.isfinite(folds.mape_pct).all(), "Invalid appendix fold evidence")
+    objectives = folds.loc[folds.experiment.eq("shortlife_objective")]
+    means = objectives.groupby(["split", "regime", "candidate"]).mape_pct.mean()
+    order = {name: i for i, name in enumerate(("baseline", "inverse", "q50", "q30"))}
+    for split, regimes in provenance["objective_selection"].items():
+        for regime, expected in regimes.items():
+            scores = means.loc[(split, regime)]
+            winner = min(scores.index, key=lambda name: (scores[name], order[name]))
+            require(winner == expected, "Appendix source-only selection mismatch")
+    for split in provenance["stress_splits"]:
+        require(split["protocol_overlap"] == 0 and split["train_min"] > split["valid_max"]
+                and set(split["train_ids"]).isdisjoint(split["valid_ids"]),
+                "Invalid appendix stress split")
+    return len(predictions)
 
 
 def main():
@@ -167,7 +229,9 @@ def main():
         checks = "saved prediction metrics and frozen test inputs" if name.startswith("batch3_") else "saved prediction metrics and CV means"
         print(f"PASS: {name} — {checks}")
     verify_protocol_split()
+    appendix_rows = verify_business_appendix()
     verify_report_links()
+    print(f"PASS: business appendix — {appendix_rows} saved predictions, source selections and model hashes")
     print(f"PASS: {total} prediction rows; protocol split, frozen models, gaps and links")
     print("No training, raw-data access, model unpickling or file writes.")
 

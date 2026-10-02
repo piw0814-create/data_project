@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def selected_files():
     files = [ROOT / name for name in (
         'README.md', 'requirements.in', 'requirements.txt', '.python-version', 'data/README.md')]
+    files += sorted((ROOT / 'docs').glob('*.md'))
     files += sorted((ROOT / 'src').glob('*.py'))
     files += sorted((ROOT / 'notebooks').glob('*.ipynb'))
     files += [ROOT / 'outputs/final/DAY1_REPORT.md']
